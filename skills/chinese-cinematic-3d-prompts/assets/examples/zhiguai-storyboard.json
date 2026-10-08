@@ -1,0 +1,45 @@
+{
+  "profile": "zhiguai",
+  "mode": "storyboard",
+  "subject": "a young wandering Chinese Taoist traveler",
+  "setting": "a misty mountain bamboo forest beside an abandoned ancient temple at dusk",
+  "action": "the traveler walks cautiously along the narrow path",
+  "character_lock": {
+    "identity": "the same young wandering Chinese Taoist traveler",
+    "face": "a narrow youthful face, gently arched brows and watchful dark eyes",
+    "hair": "black hair tied into a small practical topknot",
+    "costume": "a worn gray-blue robe with a plain dark cloth sash",
+    "props": "a woven bamboo basket on his back and one weathered wooden staff",
+    "silhouette": "a lean figure with a rounded basket and a straight wooden staff"
+  },
+  "palette": "muted bamboo green, blue-gray mist and a small warm amber lantern accent",
+  "aspect_ratio": "16:9",
+  "shots": [
+    {
+      "id": "SHOT_01",
+      "action": "he places one cautious step on the damp stone path",
+      "camera": "wide establishing shot from behind, path leading toward the temple",
+      "lighting": "cool dusk filtered through bamboo, faint distant amber glow",
+      "emotion": "quiet vigilance",
+      "duration_seconds": 4
+    },
+    {
+      "id": "SHOT_02",
+      "action": "he stops and turns his gaze toward one paper lantern floating without support",
+      "camera": "medium three-quarter shot, traveler and floating lantern both visible",
+      "lighting": "warm lantern glow on one side of his face, cool mist behind",
+      "emotion": "restrained surprise",
+      "duration_seconds": 4
+    },
+    {
+      "id": "SHOT_03",
+      "setting": "the weathered temple gate framed by dark bamboo and thin mist",
+      "action": "he leans forward slightly while the floating lantern hangs beside the open gate",
+      "camera": "over-the-shoulder view toward the temple doorway",
+      "lighting": "a localized amber paper-lantern glow against a blue-gray doorway",
+      "emotion": "hesitant curiosity",
+      "duration_seconds": 4
+    }
+  ],
+  "avoid": ["extra floating lanterns", "modern signage"]
+}

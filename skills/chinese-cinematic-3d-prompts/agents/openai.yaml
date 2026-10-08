@@ -1,0 +1,4 @@
+interface:
+  display_name: "中国古风电影级 3D 动画提示词"
+  short_description: "统一古风电影级三维动画风格，生成五类题材的人物、场景与分镜提示词"
+  default_prompt: "请使用 $chinese-cinematic-3d-prompts，为志怪故事生成保持角色一致的三镜头提示词。"

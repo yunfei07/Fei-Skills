@@ -1,0 +1,277 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Chinese cinematic 3D prompt request v1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "profile",
+    "subject",
+    "setting",
+    "action"
+  ],
+  "properties": {
+    "subject": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "setting": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "action": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "emotion": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "camera": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "lighting": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "palette": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "profile": {
+      "enum": [
+        "xiake",
+        "jianghu",
+        "zhiguai",
+        "historical",
+        "mythology"
+      ]
+    },
+    "mode": {
+      "enum": [
+        "character",
+        "scene",
+        "storyboard"
+      ],
+      "default": "scene"
+    },
+    "aspect_ratio": {
+      "enum": [
+        "16:9",
+        "9:16",
+        "1:1",
+        "4:3",
+        "3:2",
+        "2.39:1"
+      ],
+      "default": "16:9"
+    },
+    "brand_style": {
+      "enum": [
+        "descriptive",
+        "original-test"
+      ],
+      "default": "descriptive"
+    },
+    "historical_accuracy": {
+      "enum": [
+        "stylized",
+        "inspired",
+        "strict"
+      ],
+      "default": "stylized"
+    },
+    "character_lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "identity": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "face": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "hair": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "costume": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "props": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "silhouette": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "source_notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    },
+    "avoid": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    },
+    "shots": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "action"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "setting": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "action": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "emotion": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "camera": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "lighting": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "duration_seconds": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          }
+        }
+      },
+      "description": "IDs must be unique after trimming; enforced by compose_prompt.py."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "mode"
+        ],
+        "properties": {
+          "mode": {
+            "const": "storyboard"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "shots",
+          "character_lock"
+        ],
+        "properties": {
+          "character_lock": {
+            "anyOf": [
+              {
+                "required": [
+                  "face"
+                ]
+              },
+              {
+                "required": [
+                  "hair"
+                ]
+              },
+              {
+                "required": [
+                  "costume"
+                ]
+              },
+              {
+                "required": [
+                  "props"
+                ]
+              },
+              {
+                "required": [
+                  "silhouette"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "else": {
+        "not": {
+          "required": [
+            "shots"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "historical_accuracy"
+        ],
+        "properties": {
+          "historical_accuracy": {
+            "const": "strict"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "source_notes"
+        ],
+        "properties": {
+          "profile": {
+            "const": "historical"
+          },
+          "source_notes": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}
