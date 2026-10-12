@@ -11,6 +11,7 @@ import unittest
 REPO = Path(__file__).resolve().parents[1]
 SKILL = REPO / "skills/chinese-cinematic-3d-prompts"
 SCRIPT = SKILL / "scripts/compose_prompt.py"
+sys.path.insert(0, str(SCRIPT.parent))
 spec = importlib.util.spec_from_file_location("compose_prompt", SCRIPT)
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
@@ -124,7 +125,7 @@ class PromptBehavior(unittest.TestCase):
             first = subprocess.run(command, cwd=directory, capture_output=True, text=True)
             self.assertEqual(first.returncode, 0, first.stderr)
             before = output.read_bytes()
-            self.assertEqual(json.loads(before)["schema_version"], "1.0.0")
+            self.assertEqual(json.loads(before)["schema_version"], "1.1.0")
             second = subprocess.run(command, cwd=directory, capture_output=True, text=True)
             self.assertEqual(second.returncode, 2)
             self.assertEqual(output.read_bytes(), before)

@@ -10,6 +10,7 @@
 [STYLE_LOCK]
 [PRIMARY_PROFILE]
 Character identity: [CHARACTER_LOCK]
+Scene continuity: [SELECTED_SCENE_LOCK]
 Subject: [SUBJECT]
 Setting: [SETTING]
 Visible action: [ACTION]
@@ -27,6 +28,7 @@ Frame: [ASPECT_RATIO]; [MODE_DIRECTIVE]
 | STYLE_LOCK | 材质、工艺、动画渲染语言 | 用户明确要求改变风格时建立新版本 |
 | PRIMARY_PROFILE | 一个主叙事类别 | 角色和场景细节；混合题材先选主类 |
 | CHARACTER_LOCK | 身份、面部、发型、服饰、道具、轮廓 | 动作、表情、位置；剧情换装需新锁版本 |
+| SCENE_LOCK | 场景布局、建筑、固定道具、天气、时段 | 换地点选择另一个注册场景 |
 | SETTING / ACTION | 具体可见环境与一个主要动作 | 地点和叙事推进 |
 | CAMERA / LIGHTING | 可读主体、明确光源 | 景别、角度、色温、情绪曲线 |
 | FRAME | 系列统一画幅和配色 | 用户明确改版时新建输出包 |
@@ -38,3 +40,6 @@ Frame: [ASPECT_RATIO]; [MODE_DIRECTIVE]
 ## 负向约束
 
 以自然语言排除真人摄影、二维平涂、光滑廉价塑料、现代道具、风格漂移和不可读动作；各 Profile 添加对应约束。目标工具支持独立负向字段时使用该字段，否则采用 `Avoid …` 约束段。不擅自添加工具参数。
+
+
+[本版实现] 场景锁与角色锁逐镜完整重复。镜头运动只进入独立 motion_prompt_en；声音和转场仅为制作字段，不改变静态风格底座。参考图 ID 作为元数据保留，不将文件路径写入视觉提示词。

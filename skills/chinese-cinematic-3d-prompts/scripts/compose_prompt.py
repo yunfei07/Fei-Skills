@@ -8,9 +8,10 @@ import math
 from pathlib import Path
 import re
 import sys
+import storyboard_contract as production
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 LOCK_FIELDS = ("identity", "face", "hair", "costume", "props", "silhouette")
 SHOT_FIELDS = ("setting", "action", "emotion", "camera", "lighting")
 DEFAULTS = {
@@ -110,7 +111,7 @@ def load_profiles():
 
 
 def normalize(request, profiles):
-    object_fields(request, {*DEFAULTS, "profile", "subject", "setting", "action", "shots"}, "request")
+    object_fields(request, {*DEFAULTS, *production.TOP_FIELDS, "profile", "subject", "setting", "action", "shots"}, "request")
     data = {**DEFAULTS, **request}
     for field in ("profile", "subject", "setting", "action", "emotion", "camera", "lighting", "palette"):
         data[field] = string(data.get(field), field)
@@ -141,7 +142,7 @@ def normalize(request, profiles):
     normalized, ids = [], set()
     for i, shot in enumerate(shots):
         path = f"shots[{i}]"
-        object_fields(shot, {"id", *SHOT_FIELDS, "duration_seconds"}, path)
+        object_fields(shot, {"id", *SHOT_FIELDS, *production.SHOT_FIELDS, "duration_seconds"}, path)
         item = {"id": string(shot.get("id"), f"{path}.id")}
         if item["id"] in ids:
             raise InputError(f"{path}.id: duplicate shot id")
@@ -160,18 +161,21 @@ def normalize(request, profiles):
     return data
 
 
-def compose(request):
+def compose(request, base_dir=None):
     profiles = load_profiles()
-    data = normalize(request, profiles)
+    data = production.attach(request, normalize(request, profiles), base_dir)
     style = STYLE_PREFIXES[data["brand_style"]] + STYLE_MATERIALS
     lock = data["character_lock"]
     lock_sentence = "; ".join(f"{key}: {value}" for key, value in lock.items())
-    shots = data.get("shots", [{"id": "FRAME_01", **{key: data[key] for key in SHOT_FIELDS}}])
+    shots = data["production_shots"]
     records = []
     for shot in shots:
         parts = [style, profiles[data["profile"]]["prompt_en"]]
         if lock_sentence:
             parts.append(f"Character identity lock: {lock_sentence}.")
+        if shot["scene_lock"]:
+            scene_sentence = "; ".join(f"{key}: {value}" for key, value in shot["scene_lock"].items() if key != "id")
+            parts.append(f"Scene continuity lock: {scene_sentence}.")
         parts.extend([
             f"Subject: {data['subject']}.", f"Setting: {shot['setting']}.",
             f"Visible action: {shot['action']}.", f"Emotion: {shot['emotion']}.",
@@ -179,8 +183,18 @@ def compose(request):
             f"Palette: {data['palette']}.",
             f"Frame: {data['aspect_ratio']}; {MODE_DIRECTIVES[data['mode']]}.",
         ])
-        records.append({"id": shot["id"], "prompt_en": "\n".join(parts),
-                        "shot": {key: value for key, value in shot.items() if key != "id"}})
+        prompt = "\n".join(parts)
+        movement = shot["camera_motion"]
+        motion_parts = [prompt, f"Camera movement plan: {movement['type']}; {movement['description']}."]
+        for key in ("start_frame", "end_frame"):
+            if key in movement:
+                motion_parts.append(f"{key.replace('_', ' ').capitalize()}: {movement[key]}.")
+        if "duration_seconds" in shot:
+            motion_parts.append(f"Planned shot duration: {shot['duration_seconds']} seconds.")
+        records.append({"id": shot["id"], "prompt_en": prompt,
+                        "motion_prompt_en": "\n".join(motion_parts),
+                        "reference_ids": shot["reference_ids"], "references": shot["references"],
+                        "shot": {key: value for key, value in shot.items() if key not in ("id", "references")}})
     negative = list(dict.fromkeys(BASE_AVOID + profiles[data["profile"]]["avoid"] + data["avoid"]))
     warnings = ["[能力边界] 仅组装提示词；未生成图像，未验证视觉一致性。",
                 "[能力边界] 自由文本的翻译、叙事和语义冲突需由模型检查。"]
@@ -188,14 +202,33 @@ def compose(request):
         warnings.append("[能力边界] 未提供角色视觉锚点，不宣称人物一致性。")
     if data["profile"] == "historical":
         warnings.append("[待核实] 脚本未核实史料；source_notes 仅保留输入，不能证明考据准确。")
+    if data["reference_images"]:
+        warnings.append("[能力边界] 参考图关联仅为记录；是否上传与实际使用需由出图工具执行。")
+        for reference in data["reference_images"]:
+            if reference["source_type"] == "local" and not Path(reference["source"]).is_file():
+                warnings.append(f"[待补充] 本地参考图不存在：{reference['id']}。")
+    if data["mode"] == "storyboard":
+        warnings.append("[能力边界] 镜头运动、声音与转场是制作规划；未生成视频或音频。")
+    timing = production.timeline(shots)
+    if data["mode"] == "storyboard" and not timing["timing_complete"]:
+        warnings.append("[待补充] 部分镜头缺少时长，总时长与后续时间点未计算。")
     checks = ["[已检查] 字段、类型、枚举及任务结构有效。",
               "[已检查] 每镜包含完整共享风格、配色与画幅。",
               "[已检查] 通用、Profile 和用户禁用项已合并。"]
     if lock:
         checks.append("[已检查] 同一角色锁在所有输出镜头中原样复用。")
+    if data["scene_locks"]:
+        checks.append("[已检查] 场景 ID 已解析；每镜完整重复所选场景锁。")
+    if data["reference_images"]:
+        checks.append("[已检查] 参考图 ID 与场景归属有效；未核实图像内容。")
     assumptions = {key: data[key] for key in DEFAULTS if key not in request}
+    assumptions.update({key: value for key, value in data["production_defaults"].items() if key not in request})
+    if "title" not in request:
+        assumptions["title"] = data["title"]
     return {
         "schema_version": VERSION, "skill": "chinese-cinematic-3d-prompts",
+        "title": data["title"], "scene_locks": data["scene_locks"],
+        "reference_images": data["reference_images"], "timeline": timing,
         "profile": data["profile"], "mode": data["mode"], "assumptions": assumptions,
         "style_lock": style, "character_lock": lock,
         "parameters": {key: data[key] for key in ("aspect_ratio", "palette", "brand_style", "historical_accuracy")},
@@ -218,6 +251,8 @@ def markdown(pack):
              fence(json.dumps(pack["assumptions"], ensure_ascii=False, indent=2), "json"), "",
              "## 角色锁", "", "[输入参数] 本次传入的角色锁原样复用；字段来源与创作补充需由调用者说明。", "",
              fence(json.dumps(pack["character_lock"], ensure_ascii=False, indent=2), "json"), ""]
+    for key, label in (("scene_locks", "场景锁"), ("reference_images", "参考图关联"), ("timeline", "规划时间轴")):
+        lines.extend([f"## {label}", "", fence(json.dumps(pack[key], ensure_ascii=False, indent=2), "json"), ""])
     for record in pack["prompt_records"]:
         # JSON quote IDs so line breaks cannot create arbitrary headings.
         lines.extend([f"## 镜头 {json.dumps(record['id'], ensure_ascii=False)}", "",
@@ -225,6 +260,12 @@ def markdown(pack):
         if "duration_seconds" in record["shot"]:
             lines.extend([f"[规划参数] 时长：{record['shot']['duration_seconds']} 秒。", ""])
         lines.extend([fence(record["prompt_en"], "text"), ""])
+        lines.extend(["[制作规划] 镜头运动、声音、转场与参考图关联：", "",
+                      fence(json.dumps({key: record["shot"][key] for key in
+                                        ("scene_id", "reference_ids", "camera_motion", "sound", "transition_out")},
+                                       ensure_ascii=False, indent=2), "json"), "",
+                      "[制作规划] 动态镜头提示词（尚未生成视频）：", "",
+                      fence(record["motion_prompt_en"], "text"), ""])
     lines.extend(["## 负向约束", "", fence(pack["negative_prompt_en"], "text"), "",
                   "## 证据说明", "", "[输入记录] 以下内容未经脚本核实。", "",
                   fence(json.dumps(pack["source_notes"], ensure_ascii=False, indent=2), "json"), "",
@@ -240,7 +281,7 @@ def main(argv=None):
     parser.add_argument("--output", type=Path, help="New output file; never overwrite existing files")
     args = parser.parse_args(argv)
     try:
-        pack = compose(read_json(args.input))
+        pack = compose(read_json(args.input), args.input.resolve().parent)
         content = json.dumps(pack, ensure_ascii=False, indent=2, allow_nan=False) + "\n" if args.format == "json" else markdown(pack)
         if args.output:
             with args.output.open("x", encoding="utf-8") as target:

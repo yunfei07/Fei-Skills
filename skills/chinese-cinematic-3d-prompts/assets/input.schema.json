@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Chinese cinematic 3D prompt request v1.0.0",
+  "title": "Chinese cinematic 3D prompt request v1.1.0",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -185,10 +185,73 @@
           "duration_seconds": {
             "type": "number",
             "exclusiveMinimum": 0
+          },
+          "scene_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "reference_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "uniqueItems": true
+          },
+          "camera_motion": {
+            "$ref": "#/$defs/camera_motion"
+          },
+          "sound": {
+            "$ref": "#/$defs/sound"
+          },
+          "transition_out": {
+            "$ref": "#/$defs/transition_out"
           }
         }
       },
       "description": "IDs must be unique after trimming; enforced by compose_prompt.py."
+    },
+    "scene_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "reference_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "uniqueItems": true
+    },
+    "camera_motion": {
+      "$ref": "#/$defs/camera_motion"
+    },
+    "sound": {
+      "$ref": "#/$defs/sound"
+    },
+    "transition_out": {
+      "$ref": "#/$defs/transition_out"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "scene_locks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/scene_lock"
+      }
+    },
+    "reference_images": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reference_image"
+      }
     }
   },
   "allOf": [
@@ -242,8 +305,17 @@
       },
       "else": {
         "not": {
-          "required": [
-            "shots"
+          "anyOf": [
+            {
+              "required": [
+                "shots"
+              ]
+            },
+            {
+              "required": [
+                "transition_out"
+              ]
+            }
           ]
         }
       }
@@ -273,5 +345,310 @@
         }
       }
     }
-  ]
+  ],
+  "$defs": {
+    "scene_lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "identity": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "layout": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "architecture": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "fixed_props": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "weather": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "time_of_day": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "continuity": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "identity"
+          ]
+        },
+        {
+          "required": [
+            "layout"
+          ]
+        },
+        {
+          "required": [
+            "architecture"
+          ]
+        },
+        {
+          "required": [
+            "fixed_props"
+          ]
+        },
+        {
+          "required": [
+            "weather"
+          ]
+        },
+        {
+          "required": [
+            "time_of_day"
+          ]
+        },
+        {
+          "required": [
+            "continuity"
+          ]
+        }
+      ]
+    },
+    "reference_image": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "role",
+        "source_type",
+        "source"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "role": {
+          "enum": [
+            "character",
+            "scene",
+            "style"
+          ]
+        },
+        "source_type": {
+          "enum": [
+            "local",
+            "resource_id"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "scene_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "scene_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "role": {
+                "const": "scene"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "camera_motion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "locked",
+            "pan",
+            "tilt",
+            "dolly_in",
+            "dolly_out",
+            "track",
+            "orbit",
+            "handheld"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "start_frame": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "end_frame": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "not": {
+                  "const": "locked"
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "description"
+            ]
+          }
+        }
+      ]
+    },
+    "sound": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ambience": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "music": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "dialogue": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "speaker",
+              "text"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "speaker": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        }
+      }
+    },
+    "transition_out": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "cut",
+            "match_cut",
+            "dissolve",
+            "fade_out"
+          ]
+        },
+        "duration_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "cut",
+                  "match_cut"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "duration_seconds": {
+                "maximum": 0
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "duration_seconds": {
+                "exclusiveMinimum": 0
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "description": "IDs, cross-reference resolution, scene ownership, trimmed uniqueness, transition/shot duration and final-shot constraints are checked by the runtime."
 }

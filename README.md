@@ -4,7 +4,7 @@
 
 ## 首个 Skill
 
-[已实现] 共享 Master Template 与侠客 / 江湖 / 志怪 / 历史人物 / 神话五个 Profile；支持角色设定、场景和连续分镜。输入采用自然语言（由模型整理）或 JSON；输出为英文提示词、负向约束、角色锁、参数、默认项和核查说明。
+[已实现] 共享 Master Template 与侠客 / 江湖 / 志怪 / 历史人物 / 神话五个 Profile；支持角色设定、场景和连续分镜。输入采用自然语言（由模型整理）或 JSON；输出为英文提示词、负向约束、角色锁、参数、默认项和核查说明。v1.1 增加场景锁、参考图 ID 关联、镜头运动、声音提示、转场、时间轴与离线 HTML 分镜板。
 
 [能力边界] 脚本离线组装提示词，不生成图片、不翻译中文、不核实史料。固定角色词句有助于表达一致性要求，实际图像效果仍需生成后验证。
 
@@ -20,6 +20,13 @@ python3 skills/chinese-cinematic-3d-prompts/scripts/compose_prompt.py \
 python3 skills/chinese-cinematic-3d-prompts/scripts/compose_prompt.py \
   --input skills/chinese-cinematic-3d-prompts/assets/examples/xiake-character.json \
   --format json --output xiake-prompts.json
+
+python3 skills/chinese-cinematic-3d-prompts/scripts/compose_prompt.py \
+  --input skills/chinese-cinematic-3d-prompts/assets/examples/linchong-storyboard.json \
+  --format json --output linchong-pack.json
+
+python3 skills/chinese-cinematic-3d-prompts/scripts/export_storyboard.py \
+  --input linchong-pack.json --output linchong-board.html
 
 python3 -m unittest discover -s tests -v
 ```
@@ -44,9 +51,12 @@ python3 -m unittest discover -s tests -v
 | [输入 Schema](skills/chinese-cinematic-3d-prompts/assets/input.schema.json) | JSON 请求结构 |
 | [输出契约](skills/chinese-cinematic-3d-prompts/references/output-contract.md) | 提示词包字段和状态标签 |
 | [Profile 数据](skills/chinese-cinematic-3d-prompts/assets/profiles.json) | 五类叠加词与负向约束 |
+| [分镜制作流程](skills/chinese-cinematic-3d-prompts/references/storyboard-production.md) | 场景、参考、运动、声音、转场、图片映射与 HTML 导出 |
 | [扩展约定](skills/chinese-cinematic-3d-prompts/references/extensions.md) | 新 Profile、多角色、工具适配和版本边界 |
 | [依据与边界](skills/chinese-cinematic-3d-prompts/references/provenance.md) | 用户已确认目标与本版实现选择 |
 
-[版本] 首版输出契约为 `1.0.0`。原测试视觉底座与五类目标沿用可见记录，具体字段和 Profile 文案为本版实现，不宣称逐字还原未检索到的旧方案全文。
+[版本] 当前输出契约为 `1.1.0`，兼容 v1.0 输入。原测试视觉底座与五类目标沿用可见记录，具体字段和 Profile 文案为本版实现，不宣称逐字还原未检索到的旧方案全文。
 
 [许可证] 沿用仓库现有 [GPL-3.0 LICENSE](LICENSE)。
+
+[使用说明] 林冲示例的参考图文件名需替换为实际图片路径；未提供时明确警告。分镜成图通过 `--image-map` 指定，不自动拿参考图填充镜头。HTML 可离线查看；打印布局为 A4 横向双列，可用浏览器打印保存 PDF。当前不输出可播放视频或音频。

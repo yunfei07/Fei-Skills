@@ -1,0 +1,179 @@
+{
+  "title": "林冲 · 风雪山神庙 — 六镜分镜规划",
+  "profile": "xiake",
+  "mode": "storyboard",
+  "subject": "Lin Chong, the sole human figure, a mature Chinese warrior in a literary adaptation",
+  "setting": "the snow-covered threshold and path of a small ancient Chinese mountain god temple at night",
+  "action": "he stands at the threshold holding one spear",
+  "character_lock": {
+    "identity": "the same mature Chinese warrior Lin Chong",
+    "face": "a strong angular face, thick straight eyebrows, intense dark eyes, short mustache and neat pointed beard",
+    "hair": "black hair in a compact topknot beneath a dark cloth headwrap",
+    "costume": "a weathered gray-blue padded robe, dark sash, rough brown winter cloak and worn cloth boots",
+    "props": "one long wooden-shaft spear with a modest steel spearhead, held in his right hand",
+    "silhouette": "a tall broad-shouldered figure in a heavy cloak with a clear spear silhouette"
+  },
+  "scene_locks": [
+    {
+      "id": "TEMPLE",
+      "identity": "the same small dilapidated mountain god temple",
+      "layout": "a low tiled temple faces a narrow snowy path; stone steps connect the entrance to the path; no buildings are relocated",
+      "architecture": "weathered timber doorway, low snow-laden tiled eaves, cracked stone steps",
+      "fixed_props": "one clay mountain-god statue deep inside, one small sheltered ember brazier inside the entrance",
+      "weather": "continuous diagonal windblown snow, accumulated snow on the steps and roof",
+      "time_of_day": "night",
+      "continuity": "cold blue-gray exterior, faint warm amber interior; preserve the doorway-path spatial relationship across all shots"
+    }
+  ],
+  "scene_id": "TEMPLE",
+  "reference_images": [
+    {
+      "id": "REF_LINCHONG",
+      "role": "character",
+      "source_type": "local",
+      "source": "linchong-reference.png",
+      "description": "Supply the chosen Lin Chong reference here; this example does not bundle an image."
+    }
+  ],
+  "reference_ids": [
+    "REF_LINCHONG"
+  ],
+  "camera": "medium-wide shot, readable silhouette",
+  "emotion": "solemn vigilance and tightly contained anger",
+  "lighting": "cool blue-gray snow light with weak amber side light from the temple brazier",
+  "palette": "muted blue-gray, charcoal, weathered umber, chalk-white snow, small amber accent",
+  "aspect_ratio": "16:9",
+  "brand_style": "descriptive",
+  "historical_accuracy": "stylized",
+  "sound": {
+    "ambience": [
+      "持续风雪声"
+    ],
+    "effects": [],
+    "music": "none",
+    "dialogue": []
+  },
+  "shots": [
+    {
+      "id": "SHOT_01",
+      "action": "Lin Chong is motionless at the temple threshold amid drifting snow",
+      "camera": "wide establishing shot, temple and path relationship clearly visible",
+      "duration_seconds": 5,
+      "camera_motion": {
+        "type": "dolly_in",
+        "description": "slowly approach the temple along the snowy path; preserve screen direction",
+        "start_frame": "temple and path occupy a wide frame",
+        "end_frame": "the doorway and warrior grow slightly larger"
+      },
+      "sound": {
+        "effects": [
+          "远处木门被风吹动的轻响"
+        ]
+      },
+      "transition_out": {
+        "type": "cut"
+      }
+    },
+    {
+      "id": "SHOT_02",
+      "action": "he holds his cloak closed with his left hand and grounds the spear beside his right foot",
+      "camera": "full-body three-quarter shot from slightly below eye level, entire spearhead inside frame",
+      "duration_seconds": 4,
+      "camera_motion": {
+        "type": "locked"
+      },
+      "sound": {
+        "effects": [
+          "衣袍拍动声"
+        ]
+      },
+      "transition_out": {
+        "type": "cut"
+      }
+    },
+    {
+      "id": "SHOT_03",
+      "action": "his right hand tightens around the spear shaft",
+      "camera": "close-up of his right hand, sleeve cuff and wooden spear shaft; crop the figure deliberately",
+      "duration_seconds": 3,
+      "camera_motion": {
+        "type": "locked"
+      },
+      "sound": {
+        "effects": [
+          "手掌与木杆轻微摩擦声"
+        ]
+      },
+      "transition_out": {
+        "type": "cut"
+      }
+    },
+    {
+      "id": "SHOT_04",
+      "action": "he fixes his gaze on the snowy path with a restrained expression",
+      "camera": "close-up of his face, eye line toward the path, cool key light and faint warm rim",
+      "duration_seconds": 4,
+      "camera_motion": {
+        "type": "dolly_in",
+        "description": "a restrained slow push toward his eyes; no change to face or screen direction"
+      },
+      "sound": {
+        "effects": []
+      },
+      "transition_out": {
+        "type": "cut"
+      }
+    },
+    {
+      "id": "SHOT_05",
+      "action": "windblown snow crosses the empty path in Lin Chong's line of sight; Lin Chong remains off-screen",
+      "camera": "subjective view along the path from the temple threshold; the warrior is outside the frame",
+      "duration_seconds": 3,
+      "camera_motion": {
+        "type": "locked"
+      },
+      "sound": {
+        "ambience": [
+          "风声稍强，近处雪粒扫过地面"
+        ],
+        "effects": []
+      },
+      "transition_out": {
+        "type": "cut"
+      }
+    },
+    {
+      "id": "SHOT_06",
+      "action": "he straightens his posture while keeping the spear grounded in his right hand",
+      "camera": "medium shot from the same side of the doorway, steady gaze and clear spear shaft",
+      "duration_seconds": 5,
+      "camera_motion": {
+        "type": "locked"
+      },
+      "sound": {
+        "effects": [
+          "衣料轻响"
+        ]
+      },
+      "transition_out": {
+        "type": "fade_out",
+        "duration_seconds": 0.7,
+        "notes": "末尾淡出至黑，声音设计尚未制作"
+      }
+    }
+  ],
+  "source_notes": [
+    "[用户提供] 林冲，风雪山神庙。",
+    "[创作提案] 六镜动作、造型、场景、声音与时长是艺术设计，不宣称原文逐字复原或历史考据。",
+    "[待补充] linchong-reference.png 是示例约定的本地文件名；运行前可替换为实际图片路径。"
+  ],
+  "avoid": [
+    "extra people",
+    "duplicate weapons",
+    "modern armor",
+    "magical energy effects",
+    "blood and gore",
+    "captions",
+    "panel grids"
+  ]
+}
