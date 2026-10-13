@@ -1,0 +1,19 @@
+{
+  "profile": "xiake",
+  "mode": "character",
+  "subject": "a young wandering swordswoman",
+  "setting": "a simple muted backdrop suggesting an ancient Chinese mountain path",
+  "action": "she stands calmly with one hand resting on her sheathed sword",
+  "character_lock": {
+    "identity": "a young wandering swordswoman",
+    "face": "an oval face, straight eyebrows and attentive dark eyes",
+    "hair": "black hair tied into a compact high knot",
+    "costume": "a weathered indigo travel robe with a narrow brown cloth belt",
+    "props": "one sword in a dark wooden scabbard with an old cloth-wrapped grip",
+    "silhouette": "a slim upright figure with a compact travel cloak"
+  },
+  "camera": "full-body character view, three-quarter angle, entire silhouette inside the frame",
+  "emotion": "calm resolve",
+  "aspect_ratio": "3:2",
+  "avoid": ["duplicate weapons", "cropped feet"]
+}

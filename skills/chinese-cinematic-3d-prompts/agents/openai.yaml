@@ -1,0 +1,4 @@
+interface:
+  display_name: "中国古风电影级 3D 动画提示词"
+  short_description: "统一五类古风动画风格，规划角色、场景、镜头运动与声音并导出分镜板"
+  default_prompt: "请使用 $chinese-cinematic-3d-prompts，为林冲风雪山神庙制作六镜规划，固定场景和角色，补充运动、声音与转场并导出分镜板。"

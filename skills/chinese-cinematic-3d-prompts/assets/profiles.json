@@ -1,0 +1,32 @@
+{
+  "xiake": {
+    "label": "侠客",
+    "focus": "个人行动、游侠和武艺",
+    "prompt_en": "Ancient Chinese wandering-hero storytelling, an expressive individual hero, readable martial posture, grounded weight and cloth movement, sculptural fabric and worn travel equipment.",
+    "avoid": ["modern tactical equipment", "unmotivated energy blasts", "effects hiding the martial pose"]
+  },
+  "jianghu": {
+    "label": "江湖",
+    "focus": "关系、门派和行旅环境",
+    "prompt_en": "Ancient Chinese jianghu worldbuilding, lived-in inns and travel routes, legible social relationships, layered miniature set dressing with clear foreground, middle ground and background.",
+    "avoid": ["cyberpunk city elements", "modern urban props", "crowds obscuring the central relationship"]
+  },
+  "zhiguai": {
+    "label": "志怪",
+    "focus": "民俗异象与幽微悬念",
+    "prompt_en": "Ancient Chinese zhiguai folklore fantasy, a quiet uncanny anomaly inside an otherwise tangible world, restrained supernatural presence, mist and motivated paper-lantern glow, emotionally readable suspense.",
+    "avoid": ["generic Western demon iconography", "gratuitous gore", "particle storms hiding the uncanny detail"]
+  },
+  "historical": {
+    "label": "历史人物",
+    "focus": "有明确时期背景的人物与事件",
+    "prompt_en": "Historical Chinese character storytelling within a stylized animated world, restrained characterization, period context guided by the supplied brief, tangible sculptural garments and tools.",
+    "avoid": ["modern objects", "unrequested mixtures of eras", "unsupported claims of exact historical reconstruction"]
+  },
+  "mythology": {
+    "label": "神话",
+    "focus": "中国神话与超常尺度",
+    "prompt_en": "Chinese mythological storytelling, clear monumental scale contrasts, expressive deity or mythical-creature silhouettes, sculptural cloud and mountain forms, controlled otherworldly light while preserving handcrafted miniature materials.",
+    "avoid": ["unrequested Western angel imagery", "generic MMO armor", "realistic game-render material drift"]
+  }
+}
