@@ -9,8 +9,8 @@ export default function App() {
   const [index,setIndex] = useState(0);
   const current = scenes[index] as Scene & {chapter:string};
   const progress = ((index+1)/scenes.length)*100;
-  return <main>
-    <header className="topbar"><div className="brand">Fei / Explainer</div><div className="audience">For {example.audience}</div></header>
+  return <main data-profile={example.profile ?? 'song-aesthetic'}>
+    <header className="topbar"><div className="brand">Fei · 知微</div><div className="audience">{example.profile ?? 'song-aesthetic'} · {example.audience}</div></header>
     <section className="intro"><h1>{example.title}</h1><p>{example.learning_objective}</p></section>
     <section className="stage" aria-live="polite">
       <aside><div className="chapter">{current.chapter}</div><div className="scene-count">{String(index+1).padStart(2,'0')} / {String(scenes.length).padStart(2,'0')}</div></aside>
