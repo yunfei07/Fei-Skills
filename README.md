@@ -1,62 +1,76 @@
 # Fei-Skills
 
-[已实现] 本仓库收录可复用的个人 Skill。首个模块为 **中国古风电影级 3D 动画提示词**，位于 [`skills/chinese-cinematic-3d-prompts`](skills/chinese-cinematic-3d-prompts/SKILL.md)。
+[已实现] Fei-Skills 是面向 AI Agent 的创作能力库。仓库从单一古风提示词 Skill 扩展为 **Fei-Skills 2.0**：以共享 Creative Core 为基础，组织 Video、Web 与 Visual Storytelling 能力。
 
-## 首个 Skill
+## 2.0 架构
 
-[已实现] 共享 Master Template 与侠客 / 江湖 / 志怪 / 历史人物 / 神话五个 Profile；支持角色设定、场景和连续分镜。输入采用自然语言（由模型整理）或 JSON；输出为英文提示词、负向约束、角色锁、参数、默认项和核查说明。v1.1 增加场景锁、参考图 ID 关联、镜头运动、声音提示、转场、时间轴与离线 HTML 分镜板。
+```text
+Fei-Skills/
+├── skills/
+│   ├── chinese-cinematic-3d-prompts/
+│   ├── video/
+│   │   ├── fei-knowledge-explainer-video/
+│   │   ├── fei-product-launch-video/
+│   │   └── fei-cinematic-story-film/
+│   └── web/
+│       ├── fei-knowledge-explainer-web/
+│       ├── fei-immersive-story-site/
+│       └── fei-product-landing-page/
+├── shared/
+│   ├── creative-core/
+│   └── schemas/
+├── registry/
+└── tests/
+```
 
-[能力边界] 脚本离线组装提示词，不生成图片、不翻译中文、不核实史料。固定角色词句有助于表达一致性要求，实际图像效果仍需生成后验证。
+[设计原则] 一个 Skill 表达一种稳定能力（Capability），Profile / Style / Preset 在 Skill 内部变化。避免把每一种视觉样式都拆成独立 Skill。
 
-## 直接运行
+## 第一批旗舰 Skills
 
-[运行要求] Python 3.10+，仅标准库，无 API key 或第三方依赖。从仓库根目录运行：
+| Domain | Skill | 目标产物 | 当前状态 |
+|---|---|---|---|
+| Video | `fei-knowledge-explainer-video` | 研究驱动的知识解释视频工程 | workflow v0.1 |
+| Video | `fei-product-launch-video` | 产品发布/功能演示视频工程 | workflow v0.1 |
+| Video | `fei-cinematic-story-film` | 电影化故事分镜与影片工程 | workflow v0.1 |
+| Web | `fei-knowledge-explainer-web` | 交互式知识解释网站 | workflow v0.1 |
+| Web | `fei-immersive-story-site` | 沉浸式叙事网站 | workflow v0.1 |
+| Web | `fei-product-landing-page` | 产品营销落地页 | workflow v0.1 |
+
+[能力边界] v0.1 已提供 Agent 路由、输入输出约定、共享创作规范、manifest 与注册表；尚未把 Remotion / Three.js / Next.js / FFmpeg 等渲染运行时固化为仓库脚本，因此不得把 `video.mp4`、部署后的 Web 站点描述为已由仓库离线脚本自动生成。
+
+## 原有古风 Skill
+
+[已实现] `skills/chinese-cinematic-3d-prompts` 保持兼容，继续提供侠客 / 江湖 / 志怪 / 历史人物 / 神话五个 Profile，以及角色锁、场景锁、参考图关联、镜头运动、声音提示、转场、时间轴和 HTML 分镜板导出。
+
+## Skill Specification
+
+新 Skill 遵循 [`docs/SKILL-SPEC.md`](docs/SKILL-SPEC.md)。每个 Skill 至少包含：
+
+```text
+SKILL.md
+manifest.json
+```
+
+推荐逐步增加：
+
+```text
+references/
+profiles/
+templates/
+schemas/
+scripts/
+examples/
+tests/
+```
+
+统一注册表：[`registry/skills.json`](registry/skills.json)。共享创作语言：[`shared/creative-core/README.md`](shared/creative-core/README.md)。
+
+## 验证
 
 ```bash
-python3 skills/chinese-cinematic-3d-prompts/scripts/compose_prompt.py \
-  --input skills/chinese-cinematic-3d-prompts/assets/examples/zhiguai-storyboard.json \
-  --format markdown
-
-python3 skills/chinese-cinematic-3d-prompts/scripts/compose_prompt.py \
-  --input skills/chinese-cinematic-3d-prompts/assets/examples/xiake-character.json \
-  --format json --output xiake-prompts.json
-
-python3 skills/chinese-cinematic-3d-prompts/scripts/compose_prompt.py \
-  --input skills/chinese-cinematic-3d-prompts/assets/examples/linchong-storyboard.json \
-  --format json --output linchong-pack.json
-
-python3 skills/chinese-cinematic-3d-prompts/scripts/export_storyboard.py \
-  --input linchong-pack.json --output linchong-board.html
-
 python3 -m unittest discover -s tests -v
 ```
 
-[已实现] `--output` 只创建新文件，拒绝覆盖。非法输入退出码为 2。脚本可在任意工作目录运行；资源路径从脚本位置解析。
+[版本] Fei-Skills 2.0 architecture preview / Skill spec `0.1.0`。
 
-## 在支持 Skill 的助手中使用
-
-[使用方式] 让助手读取完整 Skill 目录中的 `SKILL.md`，按其中路由读取相应 Profile 和参数契约。若工具支持本地 Skill 安装，将整个 `chinese-cinematic-3d-prompts` 目录复制到该工具规定的个人 Skill 位置，不要只复制 SKILL.md。
-
-调用示例：
-
-> 请使用 $chinese-cinematic-3d-prompts，为灰蓝长袍、背竹篓、持木杖的游方道士，在雾中竹林发现浮灯的故事写三个连续镜头。只生成提示词，保持人物一致。
-
-## 核心入口
-
-| 文件 | 作用 |
-|---|---|
-| [SKILL.md](skills/chinese-cinematic-3d-prompts/SKILL.md) | 触发说明、流程、Profile 路由 |
-| [Master Template](skills/chinese-cinematic-3d-prompts/references/master-template.md) | 风格底座、组装顺序、固定与可变模块 |
-| [输入契约](skills/chinese-cinematic-3d-prompts/references/input-contract.md) | 参数、默认、约束 |
-| [输入 Schema](skills/chinese-cinematic-3d-prompts/assets/input.schema.json) | JSON 请求结构 |
-| [输出契约](skills/chinese-cinematic-3d-prompts/references/output-contract.md) | 提示词包字段和状态标签 |
-| [Profile 数据](skills/chinese-cinematic-3d-prompts/assets/profiles.json) | 五类叠加词与负向约束 |
-| [分镜制作流程](skills/chinese-cinematic-3d-prompts/references/storyboard-production.md) | 场景、参考、运动、声音、转场、图片映射与 HTML 导出 |
-| [扩展约定](skills/chinese-cinematic-3d-prompts/references/extensions.md) | 新 Profile、多角色、工具适配和版本边界 |
-| [依据与边界](skills/chinese-cinematic-3d-prompts/references/provenance.md) | 用户已确认目标与本版实现选择 |
-
-[版本] 当前输出契约为 `1.1.0`，兼容 v1.0 输入。原测试视觉底座与五类目标沿用可见记录，具体字段和 Profile 文案为本版实现，不宣称逐字还原未检索到的旧方案全文。
-
-[许可证] 沿用仓库现有 [GPL-3.0 LICENSE](LICENSE)。
-
-[使用说明] 林冲示例的参考图文件名需替换为实际图片路径；未提供时明确警告。分镜成图通过 `--image-map` 指定，不自动拿参考图填充镜头。HTML 可离线查看；打印布局为 A4 横向双列，可用浏览器打印保存 PDF。当前不输出可播放视频或音频。
+[许可证] GPL-3.0。
