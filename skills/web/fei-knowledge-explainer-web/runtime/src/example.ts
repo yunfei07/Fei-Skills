@@ -1,9 +1,10 @@
 import type { Explainer } from './types';
 
 export const example: Explainer = {
-  version:'0.2',
+  version:'0.3',
   title:'Neural networks, without the mystery',
   audience:'Beginner',
+  profile:'song-aesthetic',
   learning_objective:'Explain how inputs become a prediction through weighted connections and repeated layers.',
   chapters:[
     {id:'signals',title:'1. Signals become numbers',scenes:[
@@ -12,7 +13,9 @@ export const example: Explainer = {
     ]},
     {id:'layers',title:'2. Layers build representations',scenes:[
       {id:'network',title:'Many simple units form a network',summary:'A layer transforms one vector of numbers into another.',kind:'network',data:{columns:[3,4,2]},fallback:'Three input nodes connect to four hidden nodes, which connect to two output nodes.'},
-      {id:'training',title:'Training changes the weights',summary:'The model compares predictions with targets and adjusts weights to reduce error.',kind:'compare',data:{left:{label:'Before',value:'larger error'},right:{label:'After updates',value:'smaller error'}},fallback:'Training repeatedly changes weights so predictions better match targets.'}
+      {id:'training',title:'Training changes the weights',summary:'The model compares predictions with targets and adjusts weights to reduce error.',kind:'compare',data:{left:{label:'Before',value:'larger error'},right:{label:'After updates',value:'smaller error'}},fallback:'Training repeatedly changes weights so predictions better match targets.'},
+      {id:'loss-chart',title:'Error falls across repeated updates',summary:'A training curve shows the direction of learning without turning the page into a dashboard.',kind:'chart',data:{labels:['1','2','3','4','5','6'],values:[62,47,39,31,27,23]},fallback:'Loss decreases from 62 to 23 over six training steps.'},
+      {id:'latent-space',title:'Representations occupy a space',summary:'A restrained spatial view can clarify relative position when depth carries meaning.',kind:'spatial',data:{count:8},fallback:'Eight muted points are arranged in a shallow arc to suggest an abstract representation space; the exact geometry is illustrative, not measured data.'}
     ]}
   ]
 };
