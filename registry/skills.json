@@ -2,7 +2,7 @@
   "spec_version": "0.1.0",
   "skills": [
     {"id":"chinese-cinematic-3d-prompts","domain":"visual-storytelling","path":"skills/chinese-cinematic-3d-prompts","status":"runnable"},
-    {"id":"fei-knowledge-explainer-video","domain":"video","path":"skills/video/fei-knowledge-explainer-video","status":"workflow"},
+    {"id":"fei-knowledge-explainer-video","domain":"video","path":"skills/video/fei-knowledge-explainer-video","status":"runnable"},
     {"id":"fei-product-launch-video","domain":"video","path":"skills/video/fei-product-launch-video","status":"workflow"},
     {"id":"fei-cinematic-story-film","domain":"video","path":"skills/video/fei-cinematic-story-film","status":"workflow"},
     {"id":"fei-knowledge-explainer-web","domain":"web","path":"skills/web/fei-knowledge-explainer-web","status":"runnable"},
