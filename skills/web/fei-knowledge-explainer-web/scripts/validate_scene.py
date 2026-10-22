@@ -3,7 +3,7 @@ import json
 import sys
 from pathlib import Path
 
-ALLOWED_KINDS = {"text", "flow", "compare", "network"}
+ALLOWED_KINDS = {"text", "flow", "compare", "network", "chart", "spatial"}
 
 
 def fail(message: str) -> None:
@@ -12,8 +12,8 @@ def fail(message: str) -> None:
 
 
 def validate(data: dict) -> None:
-    if data.get("version") != "0.2":
-        fail("version must be '0.2'")
+    if data.get("version") != "0.3":
+        fail("version must be '0.3'")
     for key in ("title", "audience", "chapters"):
         if key not in data:
             fail(f"missing top-level field: {key}")
@@ -38,6 +38,10 @@ def validate(data: dict) -> None:
                 fail(f"unsupported scene kind: {scene['kind']}")
             if scene["kind"] != "text" and not scene.get("fallback"):
                 fail(f"visual scene {scene['id']} requires fallback text")
+            if scene["kind"] == "chart" and not isinstance(scene.get("data", {}).get("values"), list):
+                fail(f"chart scene {scene['id']} requires data.values")
+            if scene["kind"] == "spatial" and not scene.get("fallback"):
+                fail(f"spatial scene {scene['id']} requires semantic fallback text")
 
 
 def main() -> None:
@@ -48,7 +52,8 @@ def main() -> None:
     data = json.loads(path.read_text(encoding="utf-8"))
     validate(data)
     scene_count = sum(len(ch["scenes"]) for ch in data["chapters"])
-    print(f"valid: {len(data['chapters'])} chapters, {scene_count} scenes")
+    profile = data.get("profile", "song-aesthetic")
+    print(f"valid: {len(data['chapters'])} chapters, {scene_count} scenes, profile={profile}")
 
 
 if __name__ == "__main__":
