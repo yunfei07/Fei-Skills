@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import {ThreeCanvas} from '@remotion/three';
 import {useCurrentFrame, useVideoConfig, interpolate} from 'remotion';
-import type {Scene, SpatialPoint} from '../../../../shared/scene-graph/types';
+import type {Scene, SpatialPoint} from '../../../../../shared/scene-graph/types';
 
 const PAPER = '#F4F1E8';
 const INK = '#24302B';
