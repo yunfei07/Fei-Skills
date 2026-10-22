@@ -1,8 +1,8 @@
 {
   "name":"fei-knowledge-explainer-video-runtime",
   "private":true,
-  "version":"0.2.0",
+  "version":"0.3.0",
   "type":"module",
   "scripts":{"studio":"remotion studio src/index.ts","render":"remotion render src/index.ts FeiKnowledgeExplainer out/explainer.mp4","build":"remotion compositions src/index.ts"},
-  "dependencies":{"@remotion/cli":"latest","remotion":"latest","react":"latest","react-dom":"latest","typescript":"latest"}
+  "dependencies":{"@react-three/fiber":"latest","@remotion/cli":"latest","@remotion/three":"latest","remotion":"latest","react":"latest","react-dom":"latest","three":"latest","typescript":"latest"}
 }

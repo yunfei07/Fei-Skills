@@ -1,6 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, Sequence, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
-import type {Explainer, Scene} from './data';
+import type {Explainer, Scene} from '../../../../../shared/scene-graph/types';
+import {SpatialScene3D} from './spatial';
 
 const C={paper:'#F4F1E8',paperDeep:'#ECE8DC',ink:'#24302B',inkSoft:'#5F6B65',green:'#7F9488',cyan:'#A7B8B1',mist:'#D9DFDA',line:'#C7CEC8',white:'#FBFAF6'};
 const serif='Songti SC, STSong, Noto Serif CJK SC, Georgia, serif';
@@ -31,9 +32,7 @@ const SceneVisual=({scene}:{scene:Scene})=>{
     const left=(scene.data?.left as {label?:string;value?:string})||{}; const right=(scene.data?.right as {label?:string;value?:string})||{};
     return <div style={{...wrap,display:'grid',gridTemplateColumns:'1fr 1fr',gap:0,maxWidth:1280}}><div style={{padding:60,borderRight:`1px solid ${C.line}`}}><div style={{fontSize:24,color:C.inkSoft}}>{left.label}</div><div style={{fontFamily:serif,fontSize:64,color:C.ink,marginTop:22}}>{left.value}</div></div><div style={{padding:60}}><div style={{fontSize:24,color:C.inkSoft}}>{right.label}</div><div style={{fontFamily:serif,fontSize:64,color:C.ink,marginTop:22}}>{right.value}</div></div></div>;
   }
-  if(scene.kind==='spatial'){
-    return <div style={{...wrap,position:'relative'}}><div style={{width:560,height:360,border:`1px solid ${C.line}`,transform:'skewY(-8deg)',background:C.paperDeep}}/><div style={{position:'absolute',fontFamily:serif,fontSize:32,color:C.inkSoft}}>spatial relation · static fallback</div></div>;
-  }
+  if(scene.kind==='spatial') return <div style={wrap}><SpatialScene3D scene={scene}/></div>;
   return <div style={{...wrap,fontFamily:serif,fontSize:96,color:C.ink,letterSpacing:'0.03em'}}>一念 · 一层 · 一变</div>;
 };
 

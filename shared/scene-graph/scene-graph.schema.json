@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fei-skills.local/shared/scene-graph/scene-graph.schema.json",
+  "title": "Fei Shared Explainer Scene Graph",
+  "type": "object",
+  "required": ["version", "title", "audience", "chapters"],
+  "properties": {
+    "version": {"const": "0.3"},
+    "profile": {"type": "string"},
+    "title": {"type": "string", "minLength": 1},
+    "audience": {"type": "string", "minLength": 1},
+    "learning_objective": {"type": "string"},
+    "chapters": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/chapter"}}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "point3": {
+      "type": "object",
+      "required": ["x", "y", "z"],
+      "properties": {
+        "x": {"type": "number"},
+        "y": {"type": "number"},
+        "z": {"type": "number"},
+        "size": {"type": "number", "exclusiveMinimum": 0},
+        "label": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "camera": {
+      "type": "object",
+      "properties": {
+        "position": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "number"}},
+        "target": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "number"}},
+        "motion": {"enum": ["static", "slow-push", "slow-pull", "lateral"]}
+      },
+      "additionalProperties": false
+    },
+    "spatialData": {
+      "type": "object",
+      "required": ["points", "meaning"],
+      "properties": {
+        "points": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/point3"}},
+        "camera": {"$ref": "#/$defs/camera"},
+        "meaning": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "scene": {
+      "type": "object",
+      "required": ["id", "title", "summary", "kind"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "summary": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["text", "flow", "compare", "network", "chart", "spatial"]},
+        "duration": {"type": "number", "exclusiveMinimum": 0},
+        "narration": {"type": "string"},
+        "fallback": {"type": "string"},
+        "data": {"type": "object"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"kind": {"const": "spatial"}}, "required": ["kind"]},
+          "then": {
+            "required": ["fallback", "data"],
+            "properties": {"data": {"$ref": "#/$defs/spatialData"}}
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "chapter": {
+      "type": "object",
+      "required": ["id", "title", "scenes"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "scenes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/scene"}}
+      },
+      "additionalProperties": false
+    }
+  }
+}
