@@ -4,7 +4,7 @@ Use this Skill when the user wants a complex concept turned into a programmable 
 
 ## Status
 
-`runnable` as of v0.2.0. The repository includes a React + Remotion reference runtime. The default visual profile is `song-aesthetic`, sourced from `shared/design-systems/song-aesthetic/`.
+`runnable` as of v0.3.0. The repository includes a React + Remotion reference runtime. The default visual profile is `song-aesthetic`, sourced from `shared/design-systems/song-aesthetic/`.
 
 ## Inputs
 
@@ -16,7 +16,9 @@ Default: `profile = song-aesthetic`.
 
 ## Shared scene graph
 
-The video runtime is designed to consume the same conceptual scene kinds used by `fei-knowledge-explainer-web` v0.3:
+The canonical semantic contract is now `shared/scene-graph/`.
+
+Supported kinds:
 
 - `text`
 - `flow`
@@ -25,7 +27,9 @@ The video runtime is designed to consume the same conceptual scene kinds used by
 - `chart`
 - `spatial`
 
-The current Remotion renderer directly supports text, flow, compare, network and chart. `spatial` is rendered as a semantic static projection fallback in v0.2; Three.js video rendering remains an extension point.
+Web and Video should consume the same scene meaning. Layout, interaction, timing and export belong to the renderer, not the semantic graph.
+
+`spatial` scenes require deterministic point coordinates, semantic `meaning`, a camera definition when needed, and readable fallback text. Depth must encode a named relationship; decorative 3D is not sufficient.
 
 ## Workflow
 
@@ -33,12 +37,27 @@ The current Remotion renderer directly supports text, flow, compare, network and
 2. Research and separate verified facts from analogy.
 3. Build a concept map and prerequisite order.
 4. Write narration beats sized to target duration.
-5. Convert each beat into the shared scene graph.
-6. Read `shared/design-systems/song-aesthetic/README.md` and `tokens.json` before styling.
-7. Assign duration per scene and keep one primary motion per shot.
-8. Preview in Remotion Studio.
-9. Render MP4 only after the scene graph, labels, pacing and fallback text pass QA.
-10. Do not claim `video.mp4` exists until an actual render completes successfully.
+5. Convert each beat into `shared/scene-graph` v0.3.
+6. Validate the graph with `shared/scene-graph/validate_scene.py`.
+7. Read `shared/design-systems/song-aesthetic/README.md` and `tokens.json` before styling.
+8. Assign duration per scene and keep one primary motion per shot.
+9. Preview in Remotion Studio.
+10. Render MP4 only after scene meaning, labels, pacing and fallback text pass QA.
+11. Do not claim `video.mp4` exists until an actual render completes successfully.
+
+## Spatial renderer
+
+v0.3 includes a deterministic Three.js renderer using `@remotion/three`.
+
+Rules:
+
+- Three scene state is driven from Remotion `useCurrentFrame()`.
+- Do not use `useFrame()`, independent `requestAnimationFrame`, or runtime randomness for scene truth.
+- `<ThreeCanvas>` must receive explicit composition `width` and `height`.
+- Song-aesthetic spatial material defaults are matte, low-saturation and non-metallic.
+- Camera motion is restricted to `static`, `slow-push`, `slow-pull`, or restrained `lateral` movement.
+- A semantic text/static fallback remains mandatory even when WebGL rendering succeeds.
+- If SVG/DOM communicates the relationship equally well, do not use 3D.
 
 ## Run
 
@@ -57,6 +76,12 @@ npm run render
 
 The default composition is `FeiKnowledgeExplainer`, 1920×1080 at 30 fps.
 
+Validate a shared scene JSON:
+
+```bash
+python3 ../../../../shared/scene-graph/validate_scene.py path/to/scene.json
+```
+
 ## Song aesthetic rules
 
 - Large negative space and paper-toned backgrounds.
@@ -65,16 +90,16 @@ The default composition is `FeiKnowledgeExplainer`, 1920×1080 at 30 fps.
 - Prefer dissolve, paper fade, line growth and slow positional motion.
 - No bounce, spin, trailer-hit typography, glassmorphism or decorative pseudo-historical motifs.
 - Charts use sparse axes and direct visual emphasis.
-- Spatial content must keep a readable 2D or text fallback.
+- Spatial content uses matte geometry and restrained camera movement.
 
 ## Outputs
 
 Planning: `research-notes`, `concept-map`, `script`, `storyboard`, `scene-graph`, `timeline`.
 
-Runnable: Remotion project source and composition preview.
+Runnable: Remotion project source, SVG/DOM renderers, deterministic Three.js spatial renderer and composition preview.
 
 Rendered output such as `video.mp4` may only be claimed after an actual renderer completes successfully.
 
 ## Hard rules
 
-Do not use decorative motion when static explanation is clearer. Do not present metaphors as literal mechanisms. Do not invent scientific or product facts. Do not trade legibility for style.
+Do not use decorative motion when static explanation is clearer. Do not present metaphors as literal mechanisms. Do not invent scientific or product facts. Do not trade legibility for style. Do not use 3D without an explicit semantic reason.
