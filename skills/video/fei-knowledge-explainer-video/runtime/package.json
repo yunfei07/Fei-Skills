@@ -1,16 +1,5 @@
 {
-  "name":"fei-knowledge-explainer-video-runtime",
-  "private":true,
-  "version":"0.4.0",
-  "type":"module",
-  "scripts":{
-    "studio":"remotion studio src/index.ts",
-    "render":"remotion render src/index.ts FeiKnowledgeExplainer out/explainer.mp4",
-    "build":"remotion compositions src/index.ts",
-    "smoke":"remotion render src/index.ts FeiKnowledgeExplainerSmoke out/smoke.mp4 --codec=h264 --crf=28",
-    "smoke:stills":"remotion still src/index.ts FeiKnowledgeExplainerSmoke out/smoke-first.png --frame=0 && remotion still src/index.ts FeiKnowledgeExplainerSmoke out/smoke-middle.png --frame=90 && remotion still src/index.ts FeiKnowledgeExplainerSmoke out/smoke-final.png --frame=179",
-    "benchmark:render":"remotion render src/index.ts FeiTransformerBenchmark out/transformer-benchmark.mp4 --codec=h264 --crf=23",
-    "benchmark:stills":"remotion still src/index.ts FeiTransformerBenchmark out/transformer-video-first.png --frame=0 && remotion still src/index.ts FeiTransformerBenchmark out/transformer-video-middle.png --frame=645 && remotion still src/index.ts FeiTransformerBenchmark out/transformer-video-final.png --frame=1289"
-  },
+  "name":"fei-knowledge-explainer-video-runtime","private":true,"version":"0.5.0","type":"module",
+  "scripts":{"studio":"remotion studio src/index.ts","render":"remotion render src/index.ts FeiKnowledgeExplainer out/explainer.mp4","build":"remotion compositions src/index.ts","smoke":"remotion render src/index.ts FeiKnowledgeExplainerSmoke out/smoke.mp4 --codec=h264 --crf=28","smoke:render":"remotion render src/index.ts FeiKnowledgeExplainerSmoke out/smoke.mp4 --codec=h264 --crf=28","smoke:stills":"remotion still src/index.ts FeiKnowledgeExplainerSmoke out/smoke-first.png --frame=30 && remotion still src/index.ts FeiKnowledgeExplainerSmoke out/smoke-middle.png --frame=90 && remotion still src/index.ts FeiKnowledgeExplainerSmoke out/smoke-final.png --frame=150","benchmark:render":"remotion render src/index.ts FeiTransformerBenchmark out/transformer-benchmark.mp4 --codec=h264 --crf=23","benchmark:stills":"remotion still src/index.ts FeiTransformerBenchmark out/transformer-video-qkv.png --frame=310 && remotion still src/index.ts FeiTransformerBenchmark out/transformer-video-attention-map.png --frame=505 && remotion still src/index.ts FeiTransformerBenchmark out/transformer-video-multi-head.png --frame=682 && remotion still src/index.ts FeiTransformerBenchmark out/transformer-video-layer-stack.png --frame=893"},
   "dependencies":{"@react-three/fiber":"latest","@remotion/cli":"latest","@remotion/three":"latest","remotion":"latest","react":"latest","react-dom":"latest","three":"latest","typescript":"latest"}
 }
