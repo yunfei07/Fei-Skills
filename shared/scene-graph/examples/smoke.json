@@ -1,0 +1,50 @@
+{
+  "version": "0.3",
+  "profile": "song-aesthetic",
+  "title": "Fei Scene Graph Smoke",
+  "audience": "runtime test",
+  "learning_objective": "Exercise shared text, chart and spatial scene semantics.",
+  "chapters": [
+    {
+      "id": "smoke",
+      "title": "Smoke",
+      "scenes": [
+        {
+          "id": "smoke-text",
+          "title": "Meaning before motion",
+          "summary": "A static statement remains readable before animation begins.",
+          "kind": "text",
+          "duration": 2,
+          "fallback": "Meaning is readable without motion."
+        },
+        {
+          "id": "smoke-chart",
+          "title": "A restrained trend",
+          "summary": "A sparse line shows a simple decreasing sequence.",
+          "kind": "chart",
+          "duration": 2,
+          "data": {"values": [0.9, 0.65, 0.48, 0.36]},
+          "fallback": "The sequence decreases from 0.9 to 0.36."
+        },
+        {
+          "id": "smoke-spatial",
+          "title": "Depth carries meaning",
+          "summary": "Two small groups occupy different spatial regions.",
+          "kind": "spatial",
+          "duration": 2,
+          "data": {
+            "points": [
+              {"x": -1.1, "y": 0.3, "z": 0.2, "size": 0.14},
+              {"x": -0.7, "y": 0.0, "z": 0.0, "size": 0.12},
+              {"x": 0.8, "y": -0.1, "z": -0.5, "size": 0.14},
+              {"x": 1.1, "y": 0.2, "z": -0.4, "size": 0.12}
+            ],
+            "camera": {"position": [0, 0, 6], "target": [0, 0, 0], "motion": "slow-push"},
+            "meaning": "The coordinates are deterministic explanatory positions used only to verify spatial rendering."
+          },
+          "fallback": "Two groups of deterministic points occupy separated regions."
+        }
+      ]
+    }
+  ]
+}

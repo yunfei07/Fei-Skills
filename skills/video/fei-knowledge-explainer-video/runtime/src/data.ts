@@ -19,3 +19,16 @@ export const example:Explainer={
     ]}
   ]
 };
+
+export const smokeExample:Explainer={
+  version:'0.3',
+  profile:'song-aesthetic',
+  title:'Fei Runtime Smoke',
+  audience:'runtime test',
+  learning_objective:'Exercise text, chart and spatial rendering in six seconds.',
+  chapters:[{id:'smoke',title:'Smoke',scenes:[
+    {id:'s-text',title:'Meaning before motion',summary:'The first frame keeps a clear editorial claim.',kind:'text',duration:2,fallback:'Meaning is readable without motion.'},
+    {id:'s-chart',title:'A restrained trend',summary:'A sparse line tests vector rendering.',kind:'chart',duration:2,data:{values:[0.9,0.65,0.48,0.36]},fallback:'The sequence decreases from 0.9 to 0.36.'},
+    {id:'s-spatial',title:'Depth carries meaning',summary:'Deterministic points test the real Three.js path.',kind:'spatial',duration:2,data:{points:[{x:-1.1,y:0.3,z:0.2,size:0.14},{x:-0.7,y:0,z:0,size:0.12},{x:0.8,y:-0.1,z:-0.5,size:0.14},{x:1.1,y:0.2,z:-0.4,size:0.12}],camera:{position:[0,0,6],target:[0,0,0],motion:'slow-push'},meaning:'Deterministic explanatory positions used only to verify rendering.'},fallback:'Two groups of deterministic points occupy separated regions.'}
+  ]}]
+};
