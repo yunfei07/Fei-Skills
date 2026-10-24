@@ -1,12 +1,10 @@
 # fei-knowledge-explainer-web
 
-Use this Skill when the user wants an interactive website that teaches a concept through scroll, step-through interaction, diagrams, data visualization or restrained 3D.
+Use this Skill when the user wants an interactive website that teaches a concept through step-through interaction, diagrams, data visualization or restrained 3D.
 
 ## Status
 
-`runnable` as of v0.3.0. The repository includes a React + Vite reference runtime that renders a validated scene graph into an accessible interactive explainer.
-
-The default visual profile is `song-aesthetic`, defined in `profiles/song-aesthetic.md`. This profile treats Song aesthetics as a digital design system based on whitespace, pale cyan/green tones, editorial rhythm, fine-line structure and restrained motion. It must not reduce the style to decorative pseudo-historical motifs.
+`runnable` as of v0.4.0. The repository includes a React + Vite reference runtime. The default visual profile is `song-aesthetic`.
 
 ## Inputs
 
@@ -16,43 +14,64 @@ Optional: `depth`, `chapters`, `profile`, `interaction_level`, `device_priority`
 
 Default: `profile = song-aesthetic`.
 
-## Workflow
+## Director-first workflow
+
+The Skill must not jump directly from a concept to a renderer.
 
 1. Define one measurable learning objective.
 2. Verify factual claims when the topic requires current or specialist knowledge.
-3. Build a prerequisite chain and chapter architecture.
-4. For each concept choose the minimum adequate medium: text, flow, comparison, network, chart, DOM interaction, or spatial 3D.
-5. Apply the selected visual profile before visual composition. When no profile is supplied, use `song-aesthetic`.
-6. Convert the explanation into the scene-graph contract in `schemas/scene-graph.schema.json`.
-7. Keep essential meaning available without hover, motion or WebGL.
-8. Validate the scene graph with `scripts/validate_scene.py`.
-9. Preview it in `runtime/` with the bundled React + Vite player.
-10. QA keyboard navigation, reduced-motion behavior, mobile reading order, factual correctness and fallback content.
+3. Build the prerequisite chain and teaching sequence.
+4. For every important mechanism, state the **explanatory verb**: transform, branch, weight, compare, repeat, focus, accumulate, or spatially relate.
+5. Choose a reusable `visual_grammar` from `shared/visual-grammar/`. Prefer the simplest grammar that makes the mechanism visible.
+6. Create a `director` plan with one focal relationship, intended reading order, evidence type and `stable_frame`.
+7. Choose `motion_grammar` only when temporal staging improves comprehension. Read `shared/motion-grammar/song-aesthetic/` for Song motion rules.
+8. Only now choose the concrete renderer: DOM, SVG, Canvas or Three.js.
+9. Convert the result to the canonical `shared/scene-graph/` contract and validate it.
+10. Preview the Web runtime and inspect the director-designated stable scenes.
+11. QA keyboard navigation, reduced motion, mobile reading order, factual correctness, fallback content and visual causality.
+
+The required causal chain is:
+
+`knowledge claim -> teaching strategy -> explanatory verb -> visual grammar -> director plan -> motion grammar -> renderer`
+
+## Visual grammar
+
+Director-grade mechanisms currently include:
+
+- `projection-split`: one representation branches into learned projections and recombines.
+- `attention-map`: line strength/opacity encodes weighted relationships.
+- `parallel-heads`: shared input fans into parallel learned paths and merges.
+- `layer-stack`: structured sublayers and repetition are the claim.
+- `process-flow`, `comparison`, `focus-reveal`: semantic grammars that may use generic renderers until a dedicated renderer adds clear explanatory value.
+
+Do not add a new grammar merely to create a new look. A grammar must name a reusable explanatory verb.
 
 ## Scene graph
 
-A project is a sequence of chapters. Each chapter contains scenes. Every scene has:
+Canonical contract: `shared/scene-graph/`.
 
-- `id`, `title`, `summary`
-- `kind`: `text`, `flow`, `compare`, `network`, `chart`, or `spatial`
-- optional structured `data`
-- optional `narration`
-- visual scenes require semantic `fallback`
+Scene kinds remain renderer-neutral: `text`, `flow`, `compare`, `network`, `chart`, `spatial`.
 
-`chart` uses a restrained SVG renderer. `spatial` uses Three.js and must only be chosen when spatial depth materially improves explanation.
+Important mechanism scenes should additionally provide:
+
+- `visual_grammar`
+- `motion_grammar` when temporal staging is useful
+- `director.focus`
+- `director.reading_order` when order matters
+- `director.evidence`: `literal`, `measured`, `schematic`, or `illustrative`
+- `director.stable_frame` for QA
+- semantic `fallback`
 
 ## Song aesthetic routing
 
-Read `profiles/song-aesthetic.md` before authoring visual or motion decisions. In particular:
-
-- preserve large negative space and a continuous reading flow;
-- favor paper, ink, Song-green and pale-cyan tones over saturated accents;
-- use thin rules rather than nested cards;
-- use serif-led editorial hierarchy rather than oversized SaaS typography;
-- prefer fade, line growth and slow positional movement over bounce, spin or dramatic scale;
-- charts and networks must remain sparse and legible;
-- spatial scenes use matte materials, restrained depth and slow cameras;
-- do not add seals, scroll frames, brush-calligraphy effects or ornamental Chinese motifs unless the content itself requires them.
+- Preserve large negative space and continuous reading flow.
+- Favor paper, ink, Song-green and pale-cyan tones over saturated accents.
+- Use thin rules rather than nested cards.
+- Use serif-led editorial hierarchy rather than oversized SaaS typography.
+- Prefer line growth, layered emergence, focus reveal and quiet parallel motion over bounce, spin or dramatic scale.
+- Charts and networks must remain sparse and legible.
+- Spatial scenes use matte materials, restrained depth and slow cameras.
+- Do not add seals, scroll frames, brush-calligraphy effects or ornamental Chinese motifs unless the content itself requires them.
 
 ## Run
 
@@ -63,12 +82,6 @@ npm install
 npm run dev
 ```
 
-Validate an example before previewing:
-
-```bash
-python3 ../scripts/validate_scene.py ../examples/neural-network-basics.json
-```
-
 Production build:
 
 ```bash
@@ -77,16 +90,18 @@ npm run build
 
 ## Outputs
 
-Required planning artifacts: `content-outline`, `concept-map`, `interaction-spec`, `scene-graph`, `design-tokens`, `component-map`.
+Planning: `content-outline`, `concept-map`, `teaching-strategy`, `director-plan`, `interaction-spec`, `scene-graph`, `design-tokens`, `component-map`.
 
-Runnable artifacts: React project source, validated scene JSON and static Vite build.
+Runnable: React project source, validated scene JSON and static Vite build.
 
 ## Hard rules
 
+- The renderer is chosen after the explanatory verb and visual grammar, never before.
+- An important mechanism scene must remain understandable as a stable still.
+- Motion must encode order, causality, relation or emphasis; decorative ambient motion is a regression.
 - Do not hide essential explanation behind hover-only UI.
-- Scroll or step animation must not trap navigation.
 - Respect `prefers-reduced-motion`.
-- Provide a readable fallback for any visual renderer.
+- Provide a readable fallback for every visual renderer.
 - Do not use WebGL when SVG/DOM communicates the concept equally well.
-- Song-aesthetic styling must not weaken information hierarchy or factual clarity.
-- Do not claim factual verification unless sources were actually checked.
+- Do not present illustrative geometry or weights as measured evidence.
+- Song-aesthetic styling must not weaken factual clarity or hierarchy.
