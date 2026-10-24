@@ -1,0 +1,12 @@
+{
+  "version":"1.0.0",
+  "grammars":{
+    "projection-split":{"verb":"branch and recombine","best_for":["learned projections","fan-out transforms"],"avoid_when":"branches are merely decorative"},
+    "attention-map":{"verb":"weight relationships","best_for":["attention","influence","contribution"],"avoid_when":"weights are unknown or not comparable"},
+    "parallel-heads":{"verb":"compare parallel learned views","best_for":["multi-head systems","ensembles"],"avoid_when":"parallel paths are actually sequential"},
+    "layer-stack":{"verb":"repeat a structured block","best_for":["deep architectures","layered transforms"],"avoid_when":"internal ordering matters more than repetition"},
+    "process-flow":{"verb":"show ordered transformation","best_for":["pipelines"],"avoid_when":"branching or weighting is the main claim"},
+    "comparison":{"verb":"contrast two states","best_for":["variants","before-after"],"avoid_when":"there is no shared comparison dimension"},
+    "focus-reveal":{"verb":"move attention from whole to detail","best_for":["editorial explanation"],"avoid_when":"all details are equally important"}
+  }
+}
