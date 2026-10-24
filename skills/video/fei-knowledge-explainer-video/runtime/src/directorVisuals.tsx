@@ -37,7 +37,7 @@ export function ParallelHeads({scene}:{scene:Scene}){
   return <svg viewBox="0 0 1200 460" style={{width:1200,height:460,fontFamily:serif}} role="img" aria-label={scene.fallback}>
     <text x="105" y="228" textAnchor="middle" fill={C.ink} fontSize="27">shared input</text><line x1="40" y1="244" x2="170" y2="244" stroke={C.green}/>
     {heads.map((h,i)=>{const p=reveal(f,10+i*5,32+i*5),y=ys[i];return <g key={h}><path d={`M 170 240 Q 250 ${y} 335 ${y}`} fill="none" stroke={C.cyan} pathLength="1" style={drawStyle(p,2)}/><text x="380" y={y+7} fill={C.soft} fontSize="22" opacity={p}>{h}</text><line x1="470" y1={y} x2="790" y2={y} stroke={C.cyan} pathLength="1" style={drawStyle(p,2)}/><path d={`M 790 ${y} Q 870 ${y} 930 240`} fill="none" stroke={C.cyan} pathLength="1" style={drawStyle(p,2)}/></g>})}
-    <circle cx="940" cy="240" r="6" fill={C.green} opacity={reveal(f,40,58)}/><line x1="946" y1="240" x2="1085" y2="240" stroke={C.green} pathLength="1" style={drawStyle(reveal(f,45,64),3)}/><text x="1015" y="218" textAnchor="middle" fill={C.soft} fontSize="17" opacity={reveal(f,48,66)}>concat</text><text x="1110" y="248" fill={C.ink} fontSize="25" opacity={reveal(f,52,70)}>projection</text>
+    <circle cx="940" cy="240" r="6" fill={C.green} opacity={reveal(f,40,58)}/><line x1="946" y1="240" x2="1050" y2="240" stroke={C.green} pathLength="1" style={drawStyle(reveal(f,45,64),3)}/><text x="998" y="218" textAnchor="middle" fill={C.soft} fontSize="17" opacity={reveal(f,48,66)}>concat</text><text x="1068" y="248" fill={C.ink} fontSize="24" opacity={reveal(f,52,70)}>projection</text>
   </svg>;
 }
 
