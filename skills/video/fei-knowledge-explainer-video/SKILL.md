@@ -4,7 +4,7 @@ Use this Skill when the user wants a complex concept turned into a programmable 
 
 ## Status
 
-`runnable` as of v0.3.0. The repository includes a React + Remotion reference runtime. The default visual profile is `song-aesthetic`, sourced from `shared/design-systems/song-aesthetic/`.
+`runnable` as of v0.5.0. The repository includes a React + Remotion runtime, shared director grammar and deterministic Three.js spatial rendering. Default profile: `song-aesthetic`.
 
 ## Inputs
 
@@ -12,13 +12,42 @@ Required: `topic`, `audience`.
 
 Optional: `duration`, `aspect_ratio`, `depth`, `profile`, `narration`, `source_requirements`.
 
-Default: `profile = song-aesthetic`.
+## Director-first workflow
+
+The Skill must reason like a visual explanation director before acting like a renderer.
+
+1. Define the one-sentence learning objective.
+2. Research and separate verified fact, measured data, schematic structure and illustration.
+3. Build the prerequisite chain and teaching sequence.
+4. For each important mechanism, state the **explanatory verb**: transform, branch, weight, compare, repeat, focus, accumulate, or spatially relate.
+5. Choose `visual_grammar` from `shared/visual-grammar/` before choosing SVG, DOM or Three.js.
+6. Create a `director` plan: one focal relationship, reading order, transition, evidence type and `stable_frame`.
+7. Choose `motion_grammar` from `shared/motion-grammar/song-aesthetic/` only when time helps reveal order, causality or relation.
+8. Convert the plan into canonical `shared/scene-graph` v0.3 and validate it.
+9. Choose the concrete renderer only after the visual mechanism is established.
+10. Assign scene duration with a stable reading plateau occupying at least half of the scene.
+11. Preview in Remotion Studio, inspect director stable frames, then render the full MP4.
+12. Do not claim a rendered artifact until the renderer succeeds.
+
+Required causal chain:
+
+`knowledge claim -> teaching strategy -> explanatory verb -> visual grammar -> director plan -> motion grammar -> renderer -> stable-frame QA`
+
+## Director-grade visual mechanisms
+
+- `projection-split`: visually branch one representation into learned projections, show the operation path and recombination.
+- `attention-map`: line strength or opacity carries relationship weight while exact values remain readable.
+- `parallel-heads`: a shared input visibly fans into independent paths and visibly merges again.
+- `layer-stack`: internal sublayers, residual bypasses and repeated blocks are spatially legible.
+- `process-flow`, `comparison`, `focus-reveal`: semantic grammars that may use generic renderers until a dedicated mechanism adds explanatory value.
+
+A new renderer is not a new grammar. A grammar is accepted only when it expresses a reusable explanatory verb.
 
 ## Shared scene graph
 
-The canonical semantic contract is now `shared/scene-graph/`.
+Canonical semantic contract: `shared/scene-graph/`.
 
-Supported kinds:
+Renderer-neutral kinds remain:
 
 - `text`
 - `flow`
@@ -27,36 +56,29 @@ Supported kinds:
 - `chart`
 - `spatial`
 
-Web and Video should consume the same scene meaning. Layout, interaction, timing and export belong to the renderer, not the semantic graph.
+Important mechanism scenes should also specify `visual_grammar`, optional `motion_grammar`, and `director` metadata. Web and Video should preserve the same scene meaning even when layout and timing differ.
 
-`spatial` scenes require deterministic point coordinates, semantic `meaning`, a camera definition when needed, and readable fallback text. Depth must encode a named relationship; decorative 3D is not sufficient.
+## Song motion grammar
 
-## Workflow
+Song motion is restrained but not static. Preferred verbs include:
 
-1. Define the one-sentence learning objective.
-2. Research and separate verified facts from analogy.
-3. Build a concept map and prerequisite order.
-4. Write narration beats sized to target duration.
-5. Convert each beat into `shared/scene-graph` v0.3.
-6. Validate the graph with `shared/scene-graph/validate_scene.py`.
-7. Read `shared/design-systems/song-aesthetic/README.md` and `tokens.json` before styling.
-8. Assign duration per scene and keep one primary motion per shot.
-9. Preview in Remotion Studio.
-10. Render MP4 only after scene meaning, labels, pacing and fallback text pass QA.
-11. Do not claim `video.mp4` exists until an actual render completes successfully.
+- `ink-line-grow`: reveal a causal or relational path.
+- `layered-emergence`: reveal semantic layers in reading order.
+- `focus-reveal`: raise contrast on the focal relationship while context stays quiet.
+- `quiet-parallel`: stagger parallel paths, then let them settle together.
+- `paper-dissolve`: low-contrast transition between scenes; never the only explanatory motion.
+
+Avoid bounce, spin, elastic overshoot, constant ambient movement and dramatic scale changes.
 
 ## Spatial renderer
 
-v0.3 includes a deterministic Three.js renderer using `@remotion/three`.
-
-Rules:
+Use Three.js only when depth carries a named semantic relationship.
 
 - Three scene state is driven from Remotion `useCurrentFrame()`.
-- Do not use `useFrame()`, independent `requestAnimationFrame`, or runtime randomness for scene truth.
-- `<ThreeCanvas>` must receive explicit composition `width` and `height`.
-- Song-aesthetic spatial material defaults are matte, low-saturation and non-metallic.
-- Camera motion is restricted to `static`, `slow-push`, `slow-pull`, or restrained `lateral` movement.
-- A semantic text/static fallback remains mandatory even when WebGL rendering succeeds.
+- Do not use independent `requestAnimationFrame`, runtime randomness or cosmetic orbiting for scene truth.
+- Song spatial materials are matte, low-saturation and non-metallic.
+- Camera motion is restricted and must have a named explanatory purpose.
+- A semantic 2D/text fallback remains mandatory.
 - If SVG/DOM communicates the relationship equally well, do not use 3D.
 
 ## Run
@@ -68,38 +90,32 @@ npm install
 npm run studio
 ```
 
-Render the bundled reference composition:
+Render:
 
 ```bash
 npm run render
 ```
 
-The default composition is `FeiKnowledgeExplainer`, 1920×1080 at 30 fps.
-
-Validate a shared scene JSON:
+Validate shared scene JSON:
 
 ```bash
 python3 ../../../../shared/scene-graph/validate_scene.py path/to/scene.json
 ```
 
-## Song aesthetic rules
-
-- Large negative space and paper-toned backgrounds.
-- Song-green / pale-cyan / ink hierarchy; no saturated neon accents.
-- Serif-led editorial titles and restrained line-based diagrams.
-- Prefer dissolve, paper fade, line growth and slow positional motion.
-- No bounce, spin, trailer-hit typography, glassmorphism or decorative pseudo-historical motifs.
-- Charts use sparse axes and direct visual emphasis.
-- Spatial content uses matte geometry and restrained camera movement.
-
 ## Outputs
 
-Planning: `research-notes`, `concept-map`, `script`, `storyboard`, `scene-graph`, `timeline`.
+Planning: `research-notes`, `concept-map`, `teaching-strategy`, `director-plan`, `script`, `storyboard`, `scene-graph`, `timeline`.
 
-Runnable: Remotion project source, SVG/DOM renderers, deterministic Three.js spatial renderer and composition preview.
+Runnable: Remotion project source, SVG/DOM director renderers, deterministic Three.js spatial renderer and composition preview.
 
 Rendered output such as `video.mp4` may only be claimed after an actual renderer completes successfully.
 
 ## Hard rules
 
-Do not use decorative motion when static explanation is clearer. Do not present metaphors as literal mechanisms. Do not invent scientific or product facts. Do not trade legibility for style. Do not use 3D without an explicit semantic reason.
+- Never choose a renderer before identifying the explanatory verb and visual grammar.
+- Every important mechanism scene must be understandable at its `stable_frame`.
+- Motion must stage comprehension, not decorate a static slide.
+- Do not present metaphors or illustrative weights as measured mechanism output.
+- Do not invent scientific or product facts.
+- Do not use 3D without explicit semantic value.
+- Do not trade legibility for Song styling or cinematic motion.
