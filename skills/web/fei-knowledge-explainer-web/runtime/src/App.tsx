@@ -1,17 +1,19 @@
 import { useMemo, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { example } from './example';
+import { transformerBenchmark } from './transformerBenchmark';
 import type { Scene } from './types';
 import SceneRenderer from './renderers';
 
 export default function App() {
-  const scenes = useMemo(()=>example.chapters.flatMap(ch=>ch.scenes.map(scene=>({...scene,chapter:ch.title}))),[]);
+  const selected = new URLSearchParams(window.location.search).get('benchmark') === 'transformer' ? transformerBenchmark : example;
+  const scenes = useMemo(()=>selected.chapters.flatMap(ch=>ch.scenes.map(scene=>({...scene,chapter:ch.title}))),[selected]);
   const [index,setIndex] = useState(0);
   const current = scenes[index] as Scene & {chapter:string};
   const progress = ((index+1)/scenes.length)*100;
-  return <main data-profile={example.profile ?? 'song-aesthetic'}>
-    <header className="topbar"><div className="brand">Fei · 知微</div><div className="audience">{example.profile ?? 'song-aesthetic'} · {example.audience}</div></header>
-    <section className="intro"><h1>{example.title}</h1><p>{example.learning_objective}</p></section>
+  return <main data-profile={selected.profile ?? 'song-aesthetic'}>
+    <header className="topbar"><div className="brand">Fei · 知微</div><div className="audience">{selected.profile ?? 'song-aesthetic'} · {selected.audience}</div></header>
+    <section className="intro"><h1>{selected.title}</h1><p>{selected.learning_objective}</p></section>
     <section className="stage" aria-live="polite">
       <aside><div className="chapter">{current.chapter}</div><div className="scene-count">{String(index+1).padStart(2,'0')} / {String(scenes.length).padStart(2,'0')}</div></aside>
       <article><h2>{current.title}</h2><p>{current.summary}</p><div className="visual"><SceneRenderer scene={current}/></div><p className="fallback">{current.fallback}</p></article>
