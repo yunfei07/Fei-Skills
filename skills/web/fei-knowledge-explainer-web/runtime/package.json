@@ -1,9 +1,9 @@
 {
   "name":"fei-knowledge-explainer-web-runtime",
   "private":true,
-  "version":"0.3.1",
+  "version":"0.4.0",
   "type":"module",
-  "scripts":{"dev":"vite","build":"tsc -b && vite build","preview":"vite preview"},
+  "scripts":{"dev":"vite","build":"tsc -b && vite build","preview":"vite preview","benchmark:capture":"node scripts/capture-transformer-benchmark.mjs"},
   "dependencies":{"@vitejs/plugin-react":"latest","vite":"latest","typescript":"latest","react":"latest","react-dom":"latest","lucide-react":"latest","three":"latest"},
-  "devDependencies":{"@types/react":"latest","@types/react-dom":"latest","@types/three":"latest"}
+  "devDependencies":{"@types/react":"latest","@types/react-dom":"latest","@types/three":"latest","playwright":"latest"}
 }

@@ -1,0 +1,54 @@
+name: Fei-Skills Capability Benchmark
+
+on:
+  pull_request:
+    paths:
+      - 'benchmarks/transformer-explainer/**'
+      - 'skills/web/fei-knowledge-explainer-web/**'
+      - 'skills/video/fei-knowledge-explainer-video/**'
+      - 'shared/scene-graph/**'
+      - '.github/workflows/capability-benchmark.yml'
+  workflow_dispatch:
+
+jobs:
+  transformer-benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate benchmark scene graph
+        run: python3 shared/scene-graph/validate_scene.py benchmarks/transformer-explainer/scene-graph.json
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build Web benchmark
+        working-directory: skills/web/fei-knowledge-explainer-web/runtime
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+          npx playwright install --with-deps chromium
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/fei-web.log 2>&1 &
+          sleep 3
+          npm run benchmark:capture
+      - name: Build and render Video benchmark
+        working-directory: skills/video/fei-knowledge-explainer-video/runtime
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+          npx remotion browser ensure
+          npm run benchmark:render
+          npm run benchmark:stills
+      - name: Upload benchmark artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: transformer-capability-benchmark
+          if-no-files-found: error
+          path: |
+            skills/web/fei-knowledge-explainer-web/runtime/out/transformer-web-*.png
+            skills/video/fei-knowledge-explainer-video/runtime/out/transformer-benchmark.mp4
+            skills/video/fei-knowledge-explainer-video/runtime/out/transformer-video-*.png
+          retention-days: 14
