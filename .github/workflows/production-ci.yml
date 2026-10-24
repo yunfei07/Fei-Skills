@@ -1,0 +1,64 @@
+name: Fei-Skills Production CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Validate shared smoke scene graph
+        run: python shared/scene-graph/validate_scene.py shared/scene-graph/examples/smoke.json
+
+  web-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: skills/web/fei-knowledge-explainer-web/runtime
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-audit --no-fund
+      - run: npm run build
+
+  video-build-and-smoke:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: skills/video/fei-knowledge-explainer-video/runtime
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-audit --no-fund
+      - name: Composition/type check
+        run: npm run build
+      - name: Ensure Remotion browser
+        run: npx remotion browser ensure
+      - name: Render smoke MP4
+        run: npm run smoke:render
+      - name: Export smoke keyframes
+        run: npm run smoke:stills
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fei-smoke-render
+          path: |
+            skills/video/fei-knowledge-explainer-video/runtime/out/smoke.mp4
+            skills/video/fei-knowledge-explainer-video/runtime/out/smoke-first.png
+            skills/video/fei-knowledge-explainer-video/runtime/out/smoke-middle.png
+            skills/video/fei-knowledge-explainer-video/runtime/out/smoke-final.png
+          if-no-files-found: error

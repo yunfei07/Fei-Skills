@@ -1,8 +1,17 @@
 {
   "name":"fei-knowledge-explainer-video-runtime",
   "private":true,
-  "version":"0.3.0",
+  "version":"0.4.0",
   "type":"module",
-  "scripts":{"studio":"remotion studio src/index.ts","render":"remotion render src/index.ts FeiKnowledgeExplainer out/explainer.mp4","build":"remotion compositions src/index.ts"},
+  "scripts":{
+    "studio":"remotion studio src/index.ts",
+    "render":"remotion render src/index.ts FeiKnowledgeExplainer out/explainer.mp4",
+    "build":"remotion compositions src/index.ts",
+    "smoke:render":"remotion render src/index.ts FeiKnowledgeExplainerSmoke out/smoke.mp4 --codec=h264 --overwrite",
+    "smoke:still:first":"remotion still src/index.ts FeiKnowledgeExplainerSmoke out/smoke-first.png --frame=0 --overwrite",
+    "smoke:still:middle":"remotion still src/index.ts FeiKnowledgeExplainerSmoke out/smoke-middle.png --frame=90 --overwrite",
+    "smoke:still:final":"remotion still src/index.ts FeiKnowledgeExplainerSmoke out/smoke-final.png --frame=179 --overwrite",
+    "smoke:stills":"npm run smoke:still:first && npm run smoke:still:middle && npm run smoke:still:final"
+  },
   "dependencies":{"@react-three/fiber":"latest","@remotion/cli":"latest","@remotion/three":"latest","remotion":"latest","react":"latest","react-dom":"latest","three":"latest","typescript":"latest"}
 }
