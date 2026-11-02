@@ -1,0 +1,18 @@
+{
+  "title": "三种方案对比",
+  "goal": "验证 data-comparison profile 能突出一个主要比较，同时保留单位、范围和限制条件。",
+  "audience": "需要基于有限数据做选择的普通读者",
+  "aspect_ratio": "9:16",
+  "profile": "data-comparison",
+  "hero": {"message": "先看主指标，再看适用条件", "visual_subject": "三个并列方案与一个被放大的主指标"},
+  "sections": [
+    {"heading": "比较问题", "purpose": "orient", "content": ["哪种方案在当前测试条件下表现更好？"]},
+    {"heading": "主要指标", "purpose": "evidence", "content": ["方案 A：12", "方案 B：18", "方案 C：25", "单位：分钟"]},
+    {"heading": "测试范围", "purpose": "boundary", "content": ["同一输入集", "同一测试环境"]},
+    {"heading": "如何解读", "purpose": "explain", "content": ["仅说明本测试条件下的差异", "不能外推为普遍性能结论"]}
+  ],
+  "exact_strings": ["12", "18", "25", "分钟"],
+  "prohibited_strings": [],
+  "visual": {"style_profile": "song-handdrawn", "palette": ["warm off-white", "ink black", "sage", "limited warm yellow"], "composition": "one dominant comparison, secondary context below", "illustration_language": "direct labels and restrained hand-drawn bars"},
+  "qa": {"three_second_read": "main comparison visible", "ten_second_path": "metric-to-caveat reading path visible", "mobile_legibility": "numbers and units readable", "fact_check": "values, units and scope preserved", "tone_check": "no universal claim"}
+}

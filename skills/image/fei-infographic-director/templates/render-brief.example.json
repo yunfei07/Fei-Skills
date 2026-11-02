@@ -1,0 +1,36 @@
+{
+  "title": "Stageshow 入门指南",
+  "goal": "让第一次接触 Stageshow 的读者知道它是什么、如何安装、第一次如何使用以及能得到什么。",
+  "audience": "第一次接触 Stageshow 的 Coding Agent 用户",
+  "aspect_ratio": "9:16",
+  "profile": "beginner-onboarding",
+  "hero": {
+    "message": "让 AI Coding Agent 帮你做产品级 UI 展示图与交互 Demo",
+    "visual_subject": "笔记本电脑 + 手机 + 产品 UI + 一个清晰的点击与结果关系"
+  },
+  "sections": [
+    {"heading": "它能做什么？", "purpose": "orient", "content": ["产品静态图", "Hero Demo", "Cursor Demo", "Bento Grid"]},
+    {"heading": "开始前的准备", "purpose": "act", "content": ["Node.js", "支持 Agent Skills 的 Coding Agent", "React 项目或让 Agent 创建项目"]},
+    {"heading": "快速安装", "purpose": "act", "content": ["运行安装命令", "选择 Coding Agent", "完成安装"]},
+    {"heading": "安装后如何使用？", "purpose": "act", "content": ["目标 + 产品/内容 + 动作/流程 + 使用场景/尺寸"]},
+    {"heading": "AI 会怎么做？", "purpose": "explain", "content": ["理解需求", "找 Gold Example", "React Kit 搭界面", "编排关键动作", "Film / Rehearse", "对比并优化"]},
+    {"heading": "你能得到什么？", "purpose": "output", "content": ["产品静态展示图", "Hero / Feature Card", "Cursor 交互 Demo", "手机 App Demo", "Bento Grid", "可继续修改的 React Component"]},
+    {"heading": "常见问题（FAQ）", "purpose": "boundary", "content": ["它不是 Canva/Figma，也不是纯 Prompt-to-image 工具", "Coding Agent 可以完成大部分实现，但仍属于 Coding Agent + React 工作流"]}
+  ],
+  "exact_strings": ["npx skills add benjitaylor/skills --skill stageshow"],
+  "prohibited_strings": ["小白", "菜鸟"],
+  "visual": {
+    "style_profile": "song-handdrawn",
+    "palette": ["warm off-white", "ink black", "celadon", "sage", "gray-green", "limited warm yellow"],
+    "composition": "顶部 hero，中部安装与首次使用路径占主要视觉权重，底部输出/FAQ/进阶资源；避免均匀卡片墙。",
+    "illustration_language": "手绘水彩与墨线；终端、浏览器、电脑、手机和流程箭头保持技术可识别性。"
+  },
+  "source_notes": ["安装命令与 Stageshow 功能必须从官方仓库或官方文档核对。"],
+  "qa": {
+    "three_second_read": "3 秒内能看出主题是 Stageshow 入门及其核心价值。",
+    "ten_second_path": "10 秒内能找到准备 → 安装 → 第一次使用 → 输出结果路径。",
+    "mobile_legibility": "手机宽度下标题、命令和主要步骤无需放大即可辨认。",
+    "fact_check": "安装命令、版本要求和功能描述与来源一致，不添加未经证实的数据。",
+    "tone_check": "受众称谓中性、尊重，不使用带有贬义或居高临下意味的标签。"
+  }
+}

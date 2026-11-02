@@ -1,0 +1,19 @@
+{
+  "title": "Stageshow 入门指南",
+  "goal": "验证 beginner-onboarding profile 能把技术工具转译为清晰的第一次使用路径。",
+  "audience": "第一次接触该工具的用户",
+  "aspect_ratio": "9:16",
+  "profile": "beginner-onboarding",
+  "hero": {"message": "从安装到第一次使用，一张图看懂", "visual_subject": "电脑、手机、终端命令和结果界面"},
+  "sections": [
+    {"heading": "它是什么？", "purpose": "orient", "content": ["产品视觉与动效工作流"]},
+    {"heading": "开始前", "purpose": "act", "content": ["准备运行环境", "准备 Coding Agent", "准备项目"]},
+    {"heading": "安装", "purpose": "act", "content": ["运行官方安装命令"]},
+    {"heading": "第一次使用", "purpose": "act", "content": ["目标 + 内容 + 动作 + 场景"]},
+    {"heading": "输出", "purpose": "output", "content": ["静态图", "交互 Demo", "可继续修改的组件"]}
+  ],
+  "exact_strings": ["npx skills add benjitaylor/skills --skill stageshow"],
+  "prohibited_strings": ["小白", "菜鸟"],
+  "visual": {"style_profile": "song-handdrawn", "palette": ["warm off-white", "ink black", "sage"], "composition": "hero + central action path + outputs", "illustration_language": "hand-drawn technical objects"},
+  "qa": {"three_second_read": "topic visible", "ten_second_path": "install-to-result path visible", "mobile_legibility": "mobile readable", "fact_check": "exact command preserved", "tone_check": "neutral beginner language"}
+}

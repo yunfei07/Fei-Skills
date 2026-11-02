@@ -1,0 +1,19 @@
+{
+  "title": "Agent 系统架构",
+  "goal": "验证 technical-architecture profile 能把组件、控制流和边界表达成单一清晰架构图。",
+  "audience": "需要快速理解系统结构的产品与工程读者",
+  "aspect_ratio": "9:16",
+  "profile": "technical-architecture",
+  "hero": {"message": "请求如何经过 Router 被分派并由多个 Worker 执行", "visual_subject": "Router 位于中心，Worker 与事件流作为连接关系"},
+  "sections": [
+    {"heading": "入口", "purpose": "orient", "content": ["User request", "Event trigger"]},
+    {"heading": "调度", "purpose": "explain", "content": ["Router 解析目标并分配任务"]},
+    {"heading": "执行", "purpose": "explain", "content": ["Worker A", "Worker B", "Worker C"]},
+    {"heading": "状态", "purpose": "explain", "content": ["Thread 保存任务上下文"]},
+    {"heading": "边界", "purpose": "boundary", "content": ["示意拓扑不代表真实性能或固定部署规模"]}
+  ],
+  "exact_strings": ["Router", "Worker", "Thread"],
+  "prohibited_strings": [],
+  "visual": {"style_profile": "song-handdrawn", "palette": ["warm off-white", "ink black", "celadon", "gray-green"], "composition": "one central architecture hero with one dominant left-to-right flow", "illustration_language": "ink-line nodes and restrained technical connectors"},
+  "qa": {"three_second_read": "system purpose visible", "ten_second_path": "request-to-worker path visible", "mobile_legibility": "node labels readable", "fact_check": "schematic caveat visible", "tone_check": "technical and neutral"}
+}
