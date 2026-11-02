@@ -57,7 +57,7 @@ jobs:
 
   infographic-director-benchmark:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -80,6 +80,12 @@ jobs:
         run: |
           npm install --no-audit --no-fund
           npx playwright install --with-deps chromium
+      - name: Test visual grammar intelligence planner
+        working-directory: skills/image/fei-infographic-director/runtime
+        run: npm run benchmark:planner
+      - name: Render automatic planning benchmarks
+        working-directory: skills/image/fei-infographic-director/runtime
+        run: npm run benchmark:auto
       - name: Render and inspect infographic benchmarks
         working-directory: skills/image/fei-infographic-director/runtime
         run: npm run benchmark
@@ -90,5 +96,6 @@ jobs:
           if-no-files-found: error
           path: |
             skills/image/fei-infographic-director/runtime/out/*.png
-            skills/image/fei-infographic-director/runtime/out/benchmark-report.json
+            skills/image/fei-infographic-director/runtime/out/auto/*.png
+            skills/image/fei-infographic-director/runtime/out/*report.json
           retention-days: 14
