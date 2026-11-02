@@ -1,0 +1,35 @@
+{
+  "title": "uv 入门：一个工具管理 Python 开发",
+  "goal": "让第一次接触 uv 的 Python 用户知道它能做什么、如何安装，以及第一次如何创建并运行项目。",
+  "audience": "第一次接触 uv 的 Python 用户",
+  "aspect_ratio": "9:16",
+  "profile": "beginner-onboarding",
+  "hero": {
+    "message": "从 Python 版本、依赖、项目到脚本，用一个工具串起来",
+    "visual_subject": "终端窗口连接 Python、pyproject.toml、锁文件与运行按钮"
+  },
+  "sections": [
+    {"heading": "它是什么？", "purpose": "orient", "content": ["用 Rust 编写的 Python 包与项目管理工具", "可独立或组合使用 Python、脚本、项目、工具等能力"]},
+    {"heading": "安装", "purpose": "act", "content": ["macOS / Linux 可使用官方 standalone installer", "安装后可直接使用 uv 命令"]},
+    {"heading": "第一次创建项目", "purpose": "act", "content": ["uv init hello-world", "cd hello-world", "uv run hello-world"]},
+    {"heading": "日常项目操作", "purpose": "explain", "content": ["uv add：添加依赖", "uv sync：同步环境", "uv lock：生成/更新锁文件", "uv run：在项目环境中运行命令"]},
+    {"heading": "还能做什么？", "purpose": "output", "content": ["安装与管理 Python 版本", "运行带内联依赖的单文件脚本", "构建与发布 Python 包"]},
+    {"heading": "边界", "purpose": "boundary", "content": ["不同项目是否需要打包取决于 build system 与项目类型", "性能宣传应保留官方 benchmark 的具体测试条件"]}
+  ],
+  "exact_strings": ["curl -LsSf https://astral.sh/uv/install.sh | sh", "uv init hello-world", "uv run hello-world", "uv add", "uv sync", "uv lock"],
+  "prohibited_strings": ["小白", "菜鸟"],
+  "visual": {
+    "style_profile": "song-handdrawn",
+    "palette": ["warm off-white", "ink black", "celadon", "sage", "limited warm yellow"],
+    "composition": "顶部突出 uv 的统一工具价值；中部形成安装 → 初始化 → 运行的主路径；下部再展开日常命令与边界。",
+    "illustration_language": "手绘终端、Python 文件、锁文件与项目树，技术对象保持可识别。"
+  },
+  "source_notes": ["Official sources: docs.astral.sh/uv/ features, project guide, installation guide."],
+  "qa": {
+    "three_second_read": "3 秒内识别为 uv 入门指南和统一 Python 工具链主题。",
+    "ten_second_path": "10 秒内找到安装 → uv init → uv run 的第一次使用路径。",
+    "mobile_legibility": "安装命令与 uv 命令在手机宽度可辨认。",
+    "fact_check": "功能与命令仅来自 Astral 官方文档，不使用脱离测试条件的速度结论。",
+    "tone_check": "使用中性入门语言，不使用贬低初学者的称谓。"
+  }
+}
