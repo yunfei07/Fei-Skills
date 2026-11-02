@@ -8,7 +8,7 @@ This Skill is not a single image prompt. It is a director workflow that separate
 
 ## Status
 
-`workflow` as of v0.3.0. The source-to-render-brief pipeline, five task profiles, schema validation, benchmark briefs, deterministic HTML/PNG runtime and CI rendering are implemented. External generative-image adapters and pixel-level rendered-text verification remain optional/future layers, so the deterministic runtime is the guaranteed repository-native output path.
+`runnable` as of v0.3.0. The source-to-render-brief pipeline, five task profiles, schema validation, benchmark briefs, deterministic HTML/PNG runtime and CI rendering are implemented and have passed the repository benchmark. External generative-image adapters and pixel/OCR-level rendered-text verification remain optional enhancement layers; the deterministic runtime is the guaranteed repository-native output path.
 
 ## Trigger
 
