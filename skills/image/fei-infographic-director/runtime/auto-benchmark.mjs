@@ -48,6 +48,24 @@ const cases = [
     expect:{profile:'knowledge-explainer',grammar:'decision-tree'}
   },
   {
+    id:'auto-knowledge-focus-e2e',
+    input:{profile:'knowledge-explainer',title:'核心机制',goal:'聚焦最关键的一步并解释它为什么重要',sections:[
+      {heading:'背景',purpose:'orient',content:['提供上下文']},
+      {heading:'核心步骤',purpose:'explain',content:['这是重点机制']},
+      {heading:'结果',purpose:'output',content:['由此产生效果']}
+    ]},
+    expect:{profile:'knowledge-explainer',grammar:'focus-reveal'}
+  },
+  {
+    id:'auto-knowledge-relate-e2e',
+    input:{profile:'knowledge-explainer',title:'三个要素的关系',goal:'解释 A、B、C 如何连接并相互依赖',sections:[
+      {heading:'要素 A',purpose:'orient',content:['连接 B']},
+      {heading:'要素 B',purpose:'explain',content:['依赖 C']},
+      {heading:'要素 C',purpose:'explain',content:['与 A 交互']}
+    ]},
+    expect:{profile:'knowledge-explainer',grammar:'spatial-relations'}
+  },
+  {
     id:'auto-knowledge-layer-e2e',
     input:{profile:'knowledge-explainer',title:'价值逐层累积',goal:'解释能力如何逐层叠加并累积价值',sections:[
       {heading:'基础层',purpose:'orient',content:['第一层']},
@@ -66,7 +84,7 @@ for (const tc of cases) {
   const bytes=fs.statSync(out).size;
   const ok=r.profile===tc.expect.profile && r.visual_grammar===tc.expect.grammar && bytes>10000;
   if(!ok) failed++;
-  results.push({id:tc.id,ok,profile:r.profile,verb:r.explanatory_verb,grammar:r.visual_grammar,confidence:r.plan?.confidence,bytes,image:out});
+  results.push({id:tc.id,ok,profile:r.profile,verb:r.explanatory_verb,grammar:r.visual_grammar,confidence:r.plan?.confidence,warnings:r.plan?.warnings||[],bytes,image:out});
 }
 const report={status:failed?'failed':'passed',total:cases.length,passed:cases.length-failed,failed,results};
 fs.writeFileSync(path.join(__dirname,'out','auto-benchmark-report.json'),JSON.stringify(report,null,2));
