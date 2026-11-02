@@ -6,6 +6,10 @@ Turn a URL, repository, document, dataset, or supplied notes into a high-quality
 
 This Skill is not a single image prompt. It is a director workflow that separates factual extraction, information architecture, visual hierarchy, style direction, rendering, and QA.
 
+## Status
+
+`workflow` as of v0.2.0. The source-to-render-brief pipeline, five audience/task profiles, schema validation, benchmark briefs and CI validation are implemented. Repository-native image rendering and rendered-image QA are not yet implemented, so this Skill must not claim autonomous PNG production without an available renderer.
+
 ## Trigger
 
 Use when the user asks to:
@@ -26,10 +30,22 @@ Optional:
 - `audience`: default `general`.
 - `use_case`: `social | onboarding | education | product | technical`.
 - `depth`: `quick | standard | deep`, default `standard`.
+- `profile`: `beginner-onboarding | technical-architecture | knowledge-explainer | data-comparison | process-guide`.
 - `aspect_ratio`: default `9:16` for social/onboarding.
 - `style_profile`: default `song-handdrawn` when no brand system is supplied.
 - `language`: inferred from user.
 - `must_include`, `must_avoid`, `brand_tokens`, `source_citations`.
+
+## Profile routing
+
+Choose the task profile before composing:
+- `profiles/beginner-onboarding.md`: first-use, setup and product/Skill onboarding.
+- `profiles/technical-architecture.md`: components, interfaces, data/control flow and system boundaries.
+- `profiles/knowledge-explainer.md`: concepts, mechanisms and educational explanation.
+- `profiles/data-comparison.md`: benchmarks, before/after, ranked choices and metric-led comparison.
+- `profiles/process-guide.md`: workflows, SOPs, checklists and tutorials.
+
+If more than one applies, choose the profile that matches the viewer's primary decision or learning task. Secondary modules may borrow another profile's pattern without changing the primary profile.
 
 ## Execution
 
@@ -102,7 +118,7 @@ Default `song-handdrawn` profile:
 - no gratuitous AI sparkle/purple-tech decoration;
 - technical objects (terminal, browser, laptop, phone, flow arrows) remain recognizable.
 
-The aesthetic must never reduce text legibility or factual precision.
+The aesthetic must never reduce text legibility or factual precision. Reuse `shared/creative-core/`, `shared/visual-grammar/` and `shared/qa/song-aesthetic-visual-qa.md` rather than creating conflicting local rules.
 
 ### 7. Compose the infographic
 For a 9:16 onboarding/explainer poster, prefer:
@@ -112,21 +128,32 @@ For a 9:16 onboarding/explainer poster, prefer:
 
 Use connectors to show causality. Avoid a uniform grid of cards when a flow or hierarchy communicates better.
 
-### 8. Render
-Produce a `render-brief` that is directly usable by the available image renderer.
+### 8. Build and validate render brief
+Produce a renderer-neutral JSON render brief that conforms to `schemas/render-brief.schema.json`.
 
 The render brief must specify:
 - exact required text;
+- prohibited strings;
 - hierarchy and placement;
-- aspect ratio;
-- visual profile;
-- illustration subjects;
+- aspect ratio and task profile;
+- visual profile and illustration language;
 - factual numbers/commands that must not be altered;
-- prohibited wording/elements.
+- QA expectations.
+
+Validate it before rendering:
+
+```bash
+python3 scripts/validate_render_brief.py path/to/render-brief.json
+```
+
+A valid render brief is an implementation artifact, not a rendered infographic.
+
+### 9. Render
+Pass the validated render brief to an available image renderer. Preserve `exact_strings` verbatim and respect `prohibited_strings`.
 
 If no renderer is available, stop at planning/implementation artifacts and state that no rendered PNG was produced.
 
-### 9. Visual QA
+### 10. Visual QA
 Review the rendered artifact at full size and thumbnail size.
 
 Acceptance gates:
@@ -136,7 +163,7 @@ Acceptance gates:
 - no clipped or unreadable text;
 - no duplicated concepts;
 - no invented facts;
-- exact commands/numbers match the claim ledger;
+- exact commands/numbers match the claim ledger and render brief;
 - beginner-facing wording is respectful and neutral;
 - decorative elements do not compete with instructional content;
 - output remains coherent on a phone screen.
@@ -151,19 +178,36 @@ Planning artifacts:
 - `information-architecture`
 - `copy-deck`
 - `visual-direction`
-- `render-brief`
 - `qa-report`
+
+Implementation artifacts:
+- validated `render-brief.json`
+- profile selection
+- renderer handoff instructions
 
 Rendered artifacts when a renderer is available:
 - `infographic-png`
 - optional aspect-ratio variants
 
+## Benchmarks
+
+`benchmarks/infographic-director/` currently exercises:
+- beginner onboarding;
+- technical architecture;
+- data comparison.
+
+CI validates the template and all benchmark render briefs against the schema and local guardrails.
+
 ## Quality boundary
 
 A visually attractive image with unsupported facts fails this Skill.
 A factually correct image with weak hierarchy also fails this Skill.
+A valid JSON brief without an actual renderer is not a final infographic.
 The target is verified content + audience translation + director-grade hierarchy + readable rendering.
 
-## Reference
+## References
 
-See `references/design-principles.md` and `examples/stageshow-onboarding.md`.
+- `references/design-principles.md`
+- `examples/stageshow-onboarding.md`
+- `templates/render-brief.example.json`
+- `schemas/render-brief.schema.json`
