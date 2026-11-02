@@ -102,12 +102,28 @@ function extractSteps(data, onboarding=false) {
 
 function extractArchitecture(data) {
   const text = textOf(data);
-  const candidates = [...new Set((text.match(/\b[A-Z][A-Za-z0-9_-]{2,}\b/g) || []).filter(x => !['EXACT','HERO'].includes(x)))].slice(0,6);
+  const generic = new Set(['Agent','System','Architecture','Component','Components','Core']);
+  const raw = [...new Set(text.match(/\b[A-Z][A-Za-z0-9_-]{2,}\b/g) || [])]
+    .filter(x => !generic.has(x) && !['EXACT','HERO'].includes(x));
+  const externalRx = /^(Client|User|Host|Request|Trigger|Browser|App)$/i;
+  const externals = raw.filter(x => externalRx.test(x));
+  const internals = raw.filter(x => !externalRx.test(x));
+  const ordered = [...externals, ...internals].slice(0,6);
   const fallback = (data.sections || []).filter(s => ['orient','explain'].includes(s.purpose)).slice(0,5).map(s => s.heading);
-  const labels = candidates.length >= 3 ? candidates : fallback;
-  const nodes = labels.map((label,i) => ({ id:`n${i+1}`, label, lane:i===0?'ENTRY':i===labels.length-1?'OUTPUT':'CORE', external:i===0 }));
-  const edges = nodes.slice(0,-1).map((n,i) => ({ from:n.id, to:nodes[i+1].id, label:'flow' }));
-  return { nodes, edges };
+  const labels = ordered.length >= 3 ? ordered : fallback;
+  const nodes = labels.map((label,i) => ({
+    id:`n${i+1}`,
+    label,
+    lane: externalRx.test(label) ? 'EXTERNAL' : i === labels.length-1 ? 'OUTPUT' : 'CORE',
+    external: externalRx.test(label)
+  }));
+  if (!nodes.some(n => n.external) && nodes.length) {
+    nodes[0].external = true;
+    nodes[0].lane = 'ENTRY';
+  }
+  const flowNodes = [...nodes.filter(n => n.external), ...nodes.filter(n => !n.external)];
+  const edges = flowNodes.slice(0,-1).map((n,i) => ({ from:n.id, to:flowNodes[i+1].id, label:'inferred flow' }));
+  return { nodes, edges, inferred_topology:true };
 }
 
 function extractStages(data) {
@@ -132,7 +148,8 @@ function confidenceFor(profileInfo, verbInfo, visualData, data) {
   const count = (vd.metrics||vd.steps||vd.nodes||vd.stages||[]).length;
   if (count >= 3) score += 0.10;
   if (data.sections?.length >= 4) score += 0.05;
-  return Math.min(0.97, Math.round(score*100)/100);
+  if (vd.inferred_topology) score -= 0.08;
+  return Math.max(0.4, Math.min(0.97, Math.round(score*100)/100));
 }
 
 export function planVisual(input) {
@@ -145,6 +162,7 @@ export function planVisual(input) {
   const warnings = [];
   if (grammar === 'quantitative-comparison' && !(visualData.value.metrics || []).length) warnings.push('No parseable quantitative metrics; add structured metrics before final render.');
   if (grammar === 'node-edge-boundary' && (visualData.value.nodes || []).length < 3) warnings.push('Architecture inference found fewer than 3 nodes; verify topology manually.');
+  if (visualData.value.inferred_topology) warnings.push('Architecture topology was inferred from labels and ordering; verify relationships against the source before factual publication.');
   if (confidence < 0.72) warnings.push('Low-confidence visual plan; review before rendering.');
 
   return {
