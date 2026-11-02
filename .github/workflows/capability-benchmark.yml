@@ -4,8 +4,10 @@ on:
   pull_request:
     paths:
       - 'benchmarks/transformer-explainer/**'
+      - 'benchmarks/infographic-director/**'
       - 'skills/web/fei-knowledge-explainer-web/**'
       - 'skills/video/fei-knowledge-explainer-video/**'
+      - 'skills/image/fei-infographic-director/**'
       - 'shared/scene-graph/**'
       - '.github/workflows/capability-benchmark.yml'
   workflow_dispatch:
@@ -52,3 +54,21 @@ jobs:
             skills/video/fei-knowledge-explainer-video/runtime/out/transformer-benchmark.mp4
             skills/video/fei-knowledge-explainer-video/runtime/out/transformer-video-*.png
           retention-days: 14
+
+  infographic-director-benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install infographic validation dependency
+        run: python -m pip install --disable-pip-version-check jsonschema
+      - name: Validate render-brief template
+        run: python3 skills/image/fei-infographic-director/scripts/validate_render_brief.py skills/image/fei-infographic-director/templates/render-brief.example.json
+      - name: Validate infographic benchmarks
+        run: |
+          for brief in benchmarks/infographic-director/*.json; do
+            python3 skills/image/fei-infographic-director/scripts/validate_render_brief.py "$brief"
+          done
