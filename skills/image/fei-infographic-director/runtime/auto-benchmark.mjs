@@ -73,6 +73,28 @@ const cases = [
       {heading:'复利层',purpose:'explain',content:['长期累积']}
     ]},
     expect:{profile:'knowledge-explainer',grammar:'layer-stack'}
+  },
+  {
+    id:'url-elayadesign-ai-design-skills',
+    input:{
+      title:'AI Design Skills 入门指南',
+      goal:'让第一次看到 elayadesign/ai-design-skills 的读者理解它是什么、包含哪些设计能力、如何安装，以及安装后如何开始使用。',
+      audience:'第一次接触这个仓库的 AI coding tool 用户',
+      aspect_ratio:'9:16',
+      sections:[
+        {heading:'它是什么？',purpose:'orient',content:['面向 AI coding tools 的设计 Skill 集合','每项 Skill 都是独立文件夹，可按需安装','适用于 Claude Code、Cursor、Codex、Windsurf 以及可读取 Markdown 规则的工具']},
+        {heading:'目前包含两项核心能力',purpose:'explain',content:['landing-page-design：从需求采集、页面结构、转化文案到完整视觉系统','figma-designer：在 Figma 中使用变量、文本样式、Auto Layout、组件与状态建立真实设计系统']},
+        {heading:'开始前准备',purpose:'act',content:['需要 Node.js','使用 skills CLI 安装']},
+        {heading:'安装',purpose:'act',content:['运行官方安装命令','CLI 会列出仓库中的 Skills 并询问要安装哪一项、安装到哪些 Agent']},
+        {heading:'第一次使用',purpose:'act',content:['安装后直接用自然语言提出 landing page 或 Figma 设计任务','也可以只安装 landing-page-design 或 figma-designer']},
+        {heading:'它强调的设计方法',purpose:'explain',content:['Landing Page：one offer → one audience → one primary action','Figma：先检查已有变量与样式，再建立 Foundations；尽量绑定变量而不是硬编码','两项 Skill 都强调结构化规则、分阶段构建和完成前自检']},
+        {heading:'边界',purpose:'boundary',content:['这些是供 AI coding/design agent 遵循的规则与工作流，不是一个独立可视化设计应用','具体设计结果仍取决于 Agent、工具能力、项目上下文和用户输入']}
+      ],
+      exact_strings:['npx skills add elayadesign/ai-design-skills','npx skills add elayadesign/ai-design-skills --skill landing-page-design','npx skills add elayadesign/ai-design-skills --skill figma-designer'],
+      source_notes:['Source: elayadesign/ai-design-skills README.md, skills/landing-page-design/SKILL.md, skills/figma-designer/SKILL.md'],
+      prohibited_strings:['小白','菜鸟']
+    },
+    expect:{profile:'beginner-onboarding',grammar:'onboarding-path'}
   }
 ];
 
