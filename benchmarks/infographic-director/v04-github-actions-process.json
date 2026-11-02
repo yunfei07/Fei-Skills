@@ -1,0 +1,35 @@
+{
+  "title": "GitHub Actions 入门：从 Workflow 到 Job",
+  "goal": "让第一次接触 GitHub Actions 的用户理解 workflow、event、job、step 的基本层级，并知道如何运行一个最小工作流。",
+  "audience": "第一次接触 GitHub Actions 的开发者",
+  "aspect_ratio": "9:16",
+  "profile": "process-guide",
+  "hero": {
+    "message": "事件触发 Workflow，Workflow 运行一个或多个 Job，Job 再按顺序执行 Steps",
+    "visual_subject": "GitHub 仓库 → Event → Workflow → Job → Step 的单一路径"
+  },
+  "sections": [
+    {"heading": "从哪里开始？", "purpose": "orient", "content": ["Workflow 文件通常放在 .github/workflows/", "Workflow 使用 YAML 定义"]},
+    {"heading": "1. 定义触发事件", "purpose": "act", "content": ["例如 push、pull_request 或 workflow_dispatch", "事件发生后 GitHub Actions 才会启动对应 workflow"]},
+    {"heading": "2. 定义 Job", "purpose": "act", "content": ["Job 在 runner 上执行", "一个 workflow 可以包含多个 job"]},
+    {"heading": "3. 在 Job 中写 Steps", "purpose": "act", "content": ["Step 可以运行 shell 命令", "Step 也可以使用可复用的 action"]},
+    {"heading": "最小示例", "purpose": "evidence", "content": ["on: workflow_dispatch", "runs-on: ubuntu-latest", "uses: actions/checkout@v4"]},
+    {"heading": "边界", "purpose": "boundary", "content": ["不同 action、runner 与权限设置会影响可用能力", "不要把示例 workflow 当成所有项目的最佳实践"]}
+  ],
+  "exact_strings": [".github/workflows/", "workflow_dispatch", "runs-on: ubuntu-latest", "actions/checkout@v4"],
+  "prohibited_strings": ["小白", "菜鸟"],
+  "visual": {
+    "style_profile": "song-handdrawn",
+    "palette": ["warm off-white", "ink black", "sage", "limited warm yellow"],
+    "composition": "纵向单一路径贯穿事件、workflow、job、step；最小 YAML 示例作为一个辅助块。",
+    "illustration_language": "手绘仓库、闪电触发符号、runner、终端与 YAML 文件图标。"
+  },
+  "source_notes": ["Official source: docs.github.com GitHub Actions quickstart and workflow documentation."],
+  "qa": {
+    "three_second_read": "3 秒内看懂事件 → Workflow → Job → Step。",
+    "ten_second_path": "10 秒内能找到文件位置、触发方式和最小 job/step 示例。",
+    "mobile_legibility": "YAML 关键字段与文件路径在手机宽度可辨认。",
+    "fact_check": "只使用 GitHub 官方文档中的 workflow 基础概念与示例字段。",
+    "tone_check": "入门表述中性，不把示例说成唯一正确做法。"
+  }
+}
