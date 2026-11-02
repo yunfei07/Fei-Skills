@@ -1,0 +1,30 @@
+{
+  "title": "信息如何逐步被压缩",
+  "goal": "验证 knowledge-explainer profile 能根据 explanatory verb 选择不同视觉语法，而不是退回统一卡片布局。",
+  "audience": "需要理解抽象机制的普通读者",
+  "aspect_ratio": "9:16",
+  "profile": "knowledge-explainer",
+  "explanatory_verb": "accumulate",
+  "visual_grammar": "layer-stack",
+  "hero": {"message": "从原始信息到核心结论，逐层保留最重要的内容", "visual_subject": "由宽到窄的多层信息堆栈"},
+  "sections": [
+    {"heading": "原始材料", "purpose": "orient", "content": ["大量事实、背景和细节"]},
+    {"heading": "筛选", "purpose": "explain", "content": ["去除与目标无关的信息"]},
+    {"heading": "组织", "purpose": "explain", "content": ["按因果、顺序或比较关系重组"]},
+    {"heading": "压缩", "purpose": "explain", "content": ["保留关键结论与必要证据"]},
+    {"heading": "输出", "purpose": "output", "content": ["形成清晰、可阅读的解释"]}
+  ],
+  "visual_data": {
+    "stages": [
+      {"label": "原始材料", "detail": "事实 + 背景 + 细节"},
+      {"label": "筛选", "detail": "移除无关信息"},
+      {"label": "组织", "detail": "重建关系"},
+      {"label": "压缩", "detail": "保留关键结论"},
+      {"label": "输出", "detail": "形成清晰解释"}
+    ]
+  },
+  "exact_strings": [],
+  "prohibited_strings": [],
+  "visual": {"style_profile": "song-handdrawn", "palette": ["warm off-white", "ink black", "celadon", "gray-green"], "composition": "stacked layers that visibly narrow toward the final explanation", "illustration_language": "layered paper-like bands with direct labels"},
+  "qa": {"three_second_read": "viewer sees a layered accumulation/compression concept", "ten_second_path": "viewer can read the five conceptual stages", "mobile_legibility": "layer labels readable", "fact_check": "synthetic explanatory mechanism contains no external factual claims", "tone_check": "neutral educational language"}
+}
