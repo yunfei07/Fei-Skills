@@ -10,6 +10,8 @@
     "audience": {"type": "string", "minLength": 1},
     "aspect_ratio": {"type": "string", "pattern": "^[0-9]+:[0-9]+$"},
     "profile": {"enum": ["beginner-onboarding", "technical-architecture", "knowledge-explainer", "data-comparison", "process-guide"]},
+    "explanatory_verb": {"enum": ["start", "follow", "try", "get", "route", "connect", "contain", "exchange", "repeat", "branch", "check", "compare", "rank", "measure", "delta", "transform", "accumulate", "focus", "relate", "orient", "inspect"]},
+    "visual_grammar": {"enum": ["onboarding-path", "node-edge-boundary", "connected-step-path", "quantitative-comparison", "before-after", "decision-tree", "layer-stack", "focus-reveal", "cycle", "spatial-relations", "paired-comparison", "editorial-fallback"]},
     "hero": {
       "type": "object",
       "required": ["message", "visual_subject"],
@@ -31,6 +33,17 @@
           "content": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
         }
       }
+    },
+    "visual_data": {
+      "type": "object",
+      "properties": {
+        "steps": {"type": "array", "items": {"type": "object", "required": ["label"], "properties": {"label": {"type": "string"}, "detail": {"type": "string"}, "kind": {"enum": ["action", "check", "decision", "result", "setup"]}}}},
+        "nodes": {"type": "array", "items": {"type": "object", "required": ["id", "label"], "properties": {"id": {"type": "string"}, "label": {"type": "string"}, "lane": {"type": "string"}, "external": {"type": "boolean"}}}},
+        "edges": {"type": "array", "items": {"type": "object", "required": ["from", "to"], "properties": {"from": {"type": "string"}, "to": {"type": "string"}, "label": {"type": "string"}}}},
+        "metrics": {"type": "array", "items": {"type": "object", "required": ["label", "value"], "properties": {"label": {"type": "string"}, "value": {"type": "number"}, "display": {"type": "string"}, "unit": {"type": "string"}, "role": {"enum": ["primary", "comparison", "context"]}}}},
+        "stages": {"type": "array", "items": {"type": "object", "required": ["label"], "properties": {"label": {"type": "string"}, "detail": {"type": "string"}}}}
+      },
+      "additionalProperties": true
     },
     "exact_strings": {"type": "array", "items": {"type": "string"}},
     "prohibited_strings": {"type": "array", "items": {"type": "string"}},
