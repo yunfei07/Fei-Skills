@@ -1,0 +1,30 @@
+{
+  "title": "发布前检查流程",
+  "goal": "验证 process-guide profile 能把顺序步骤、检查点与最终结果表现为一条清晰路径。",
+  "audience": "需要按步骤完成发布前检查的内容团队",
+  "aspect_ratio": "9:16",
+  "profile": "process-guide",
+  "explanatory_verb": "follow",
+  "visual_grammar": "connected-step-path",
+  "hero": {"message": "从内容确认到最终发布，沿着一条路径完成检查", "visual_subject": "连续步骤、检查节点与最终发布结果"},
+  "sections": [
+    {"heading": "准备", "purpose": "act", "content": ["确认标题与正文版本"]},
+    {"heading": "事实检查", "purpose": "evidence", "content": ["核对数字、来源和引用"]},
+    {"heading": "视觉检查", "purpose": "act", "content": ["确认裁切、字号与移动端可读性"]},
+    {"heading": "最终确认", "purpose": "boundary", "content": ["检查禁用词与发布范围"]},
+    {"heading": "发布", "purpose": "output", "content": ["输出最终版本"]}
+  ],
+  "visual_data": {
+    "steps": [
+      {"label": "锁定版本", "detail": "标题 + 正文", "kind": "action"},
+      {"label": "核对事实", "detail": "数字 + 来源 + 引用", "kind": "check"},
+      {"label": "检查视觉", "detail": "裁切 + 字号 + 移动端", "kind": "check"},
+      {"label": "确认范围", "detail": "禁用词 + 发布范围", "kind": "decision"},
+      {"label": "发布", "detail": "输出最终版本", "kind": "result"}
+    ]
+  },
+  "exact_strings": [],
+  "prohibited_strings": [],
+  "visual": {"style_profile": "song-handdrawn", "palette": ["warm off-white", "ink black", "sage", "warm yellow"], "composition": "one connected vertical step path with differentiated checks and result", "illustration_language": "hand-drawn path markers and restrained process symbols"},
+  "qa": {"three_second_read": "visible sequential process", "ten_second_path": "viewer can follow all five steps in order", "mobile_legibility": "step labels readable", "fact_check": "synthetic workflow contains no external factual claims", "tone_check": "clear operational language"}
+}

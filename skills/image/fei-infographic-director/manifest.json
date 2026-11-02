@@ -1,13 +1,13 @@
 {
   "id": "fei-infographic-director",
   "name": "Fei Infographic Director",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "domain": "image",
   "status": "runnable",
-  "description": "Turns verified source material into audience-aware, director-grade explanatory infographics with task profiles, structured information architecture, Song-inspired visual direction, schema-validated render briefs, deterministic PNG rendering, benchmarks, and factual/visual QA.",
+  "description": "Turns verified source material into audience-aware explanatory infographics with profile-specific visual grammars, structured visual data, schema-validated render briefs, deterministic PNG rendering, benchmarks, and factual/visual QA.",
   "entrypoint": "SKILL.md",
-  "inputs": ["source", "goal", "audience", "use_case", "depth", "profile", "aspect_ratio", "style_profile", "language", "must_include", "must_avoid"],
-  "outputs": ["brief", "claim-ledger", "information-architecture", "copy-deck", "visual-direction", "render-brief", "qa-report", "infographic-png"],
+  "inputs": ["source", "goal", "audience", "use_case", "depth", "profile", "explanatory_verb", "visual_grammar", "aspect_ratio", "style_profile", "language", "must_include", "must_avoid"],
+  "outputs": ["brief", "claim-ledger", "information-architecture", "visual-data", "copy-deck", "visual-direction", "render-brief", "qa-report", "infographic-png"],
   "runtime": ["agent", "python", "node", "playwright", "image-renderer"],
-  "tags": ["infographic", "visual-explanation", "onboarding", "technical-architecture", "data-comparison", "process-guide", "social-media", "source-aware", "song-aesthetic", "hand-drawn", "visual-director"]
+  "tags": ["infographic", "visual-explanation", "semantic-visualization", "onboarding", "technical-architecture", "knowledge-explainer", "data-comparison", "process-guide", "social-media", "source-aware", "song-aesthetic", "hand-drawn", "visual-director"]
 }

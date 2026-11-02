@@ -2,18 +2,25 @@
 
 ## Purpose
 
-Turn a URL, repository, document, dataset, or supplied notes into a high-quality, source-aware infographic for social media, education, onboarding, or product explanation.
+Turn a URL, repository, document, dataset, or supplied notes into a high-quality, source-aware infographic for social media, education, onboarding, product explanation, architecture explanation, process guidance, or data comparison.
 
-This Skill is not a single image prompt. It is a director workflow that separates factual extraction, information architecture, visual hierarchy, style direction, rendering, and QA.
+This Skill is not a single image prompt. It is a director workflow that separates factual extraction, audience translation, explanatory intent, visual grammar, rendering, and QA.
 
 ## Status
 
-`runnable` as of v0.3.0. The source-to-render-brief pipeline, five task profiles, schema validation, benchmark briefs, deterministic HTML/PNG runtime and CI rendering are implemented and have passed the repository benchmark. External generative-image adapters and pixel/OCR-level rendered-text verification remain optional enhancement layers; the deterministic runtime is the guaranteed repository-native output path.
+`runnable` as of v0.4.0.
+
+v0.4 introduces profile-specific semantic visual grammars. Different information structures must now produce materially different visual structures instead of sharing one editorial card/grid renderer.
+
+Guaranteed repository-native path:
+`source -> claim ledger -> teaching goal -> profile -> explanatory verb -> visual grammar -> visual_data -> render brief -> PNG renderer -> visual QA`
+
+External generative-image adapters remain optional enhancement layers.
 
 ## Trigger
 
 Use when the user asks to:
-- create an infographic, visual explainer, onboarding guide, cheat sheet, comparison poster, process map, or architecture explainer;
+- create an infographic, visual explainer, onboarding guide, cheat sheet, comparison poster, process map, architecture explainer, or educational diagram;
 - turn a URL/repository/document into a visual explanation;
 - explain a technical product or Skill to a non-expert audience;
 - create a social-media-first educational visual.
@@ -31,6 +38,8 @@ Optional:
 - `use_case`: `social | onboarding | education | product | technical`.
 - `depth`: `quick | standard | deep`, default `standard`.
 - `profile`: `beginner-onboarding | technical-architecture | knowledge-explainer | data-comparison | process-guide`.
+- `explanatory_verb`: what the viewer must mentally do, such as `start`, `route`, `follow`, `compare`, `transform`, `accumulate`, `focus`, or `relate`.
+- `visual_grammar`: renderer grammar selected from the teaching goal and profile.
 - `aspect_ratio`: default `9:16` for social/onboarding.
 - `style_profile`: default `song-handdrawn` when no brand system is supplied.
 - `language`: inferred from user.
@@ -38,121 +47,112 @@ Optional:
 
 ## Profile routing
 
-Choose the task profile before composing:
-- `profiles/beginner-onboarding.md`: first-use, setup and product/Skill onboarding.
-- `profiles/technical-architecture.md`: components, interfaces, data/control flow and system boundaries.
-- `profiles/knowledge-explainer.md`: concepts, mechanisms and educational explanation.
-- `profiles/data-comparison.md`: benchmarks, before/after, ranked choices and metric-led comparison.
-- `profiles/process-guide.md`: workflows, SOPs, checklists and tutorials.
+Choose the primary task profile first:
+- `beginner-onboarding`: first-use, setup and product/Skill onboarding.
+- `technical-architecture`: components, interfaces, data/control flow and boundaries.
+- `knowledge-explainer`: concepts and mechanisms.
+- `data-comparison`: benchmarks, before/after, ranked choices and metrics.
+- `process-guide`: workflows, SOPs, checklists and tutorials.
 
-If more than one applies, choose the profile that matches the viewer's primary decision or learning task. Secondary modules may borrow another profile's pattern without changing the primary profile.
+Then choose an explanatory verb and visual grammar. See `references/visual-grammar-v04.md`.
+
+Default routing:
+- beginner-onboarding -> `start/follow` -> `onboarding-path`
+- technical-architecture -> `route/connect` -> `node-edge-boundary`
+- process-guide -> `follow/check` -> `connected-step-path`
+- data-comparison -> `compare/delta` -> `quantitative-comparison`
+- knowledge-explainer -> route by verb: transform / branch / accumulate / focus / repeat / relate / compare.
 
 ## Execution
 
 ### 1. Parse the brief
-Identify source, audience, desired action, publishing surface, size, language, constraints, and whether facts require external verification.
-
-Do not force the user to answer questions already resolved by context. Ask only when missing information materially changes factual correctness or usability.
+Identify source, audience, desired action, publishing surface, size, language, constraints, and whether claims require verification.
 
 ### 2. Research and claim ledger
-When the infographic contains factual claims:
+For factual content:
 1. Read the primary source first.
 2. Extract only claims needed for the visual story.
-3. Record each claim as `verified`, `source-derived`, or `inference`.
+3. Record claims as `verified`, `source-derived`, or `inference`.
 4. Never invent statistics, benchmark results, installation commands, version requirements, sources, or conclusions.
 5. Prefer official documentation/repositories for installation and usage instructions.
 
-Output planning artifact: `claim-ledger.md` or equivalent structured notes.
-
 ### 3. Audience translation
-Translate source complexity to the audience without changing factual meaning.
+Translate source complexity without changing factual meaning.
 
-For beginner/general audiences prioritize these questions in order:
+For first-use audiences prioritize:
 1. What is it?
 2. What can it do for me?
-3. What do I need before starting?
-4. How do I install/start it?
-5. How do I use it the first time?
-6. What happens behind the scenes?
-7. What will I get?
-8. What are the limits / FAQ / next steps?
+3. What do I need?
+4. How do I start?
+5. What happens next?
+6. What will I get?
+7. What are the limits / next steps?
 
-Avoid labels that can feel condescending (for example, calling the audience “小白”). Prefer neutral wording such as `入门指南`, `第一次使用`, `快速开始`, `基础指南`.
+Avoid dismissive labels such as “小白” or “菜鸟”. Prefer neutral wording such as `入门指南`, `第一次使用`, `快速开始`, `基础指南`.
 
-### 4. Build information architecture
-Create a single visual thesis and 4–8 supporting modules.
+### 4. Define teaching goal and explanatory verb
+Before layout, state what the viewer must mentally do.
 
-Default hierarchy:
-- Hero: one sentence that explains the value.
-- Orientation: what it is / what it does.
-- Action path: setup → install → first prompt/action → result.
-- System path: simplified internal workflow when useful.
-- Output gallery: concrete deliverables.
-- Trust layer: limitations, source note, FAQ, or next steps.
+Examples:
+- onboarding: `start`
+- architecture: `route`
+- process: `follow`
+- comparison: `compare`
+- layered mechanism: `accumulate`
+- change over stages: `transform`
 
-Use one hero object and at most one or two strong satellites. Do not make every module equal weight.
+The explanatory verb is not decoration; it selects the visual grammar.
 
-### 5. Compress copy
+### 5. Build information architecture
+Create one visual thesis and 4–8 supporting modules. Use one dominant hero relationship. Supporting notes are secondary evidence or orientation, not equal-weight cards.
+
+### 6. Build structured visual_data
+The render brief may include:
+- `steps`: actions, checks, decisions, setup and results;
+- `nodes` + `edges`: architecture actors and relationships;
+- `metrics`: numeric values, units, roles and display strings;
+- `stages`: conceptual stages or layers.
+
+Use structured fields for the main semantic visual. Do not expect the renderer to infer quantitative or graph topology from prose when structured data can be supplied.
+
+### 7. Choose visual grammar
+Follow `references/visual-grammar-v04.md`.
+
+Acceptance rule: if a profile has structured semantic data, falling back to `editorial-fallback` is a QA failure.
+
+### 8. Compress copy
 Apply progressive disclosure:
 - Level 1: title + value proposition.
-- Level 2: section headings + action verbs.
-- Level 3: short supporting lines.
-- Level 4: caveats/source notes in the footer.
+- Level 2: visual labels and section headings.
+- Level 3: short support lines.
+- Level 4: caveats/source notes.
 
-Rules:
-- Say each idea once.
-- One dominant number or command at most per section.
-- Prefer short labels over paragraphs.
-- Keep commands/code exact.
-- Preserve important qualifiers.
+Say each idea once. Keep commands, names, numbers and units exact.
 
-### 6. Choose visual profile
+### 9. Choose visual style
 Default `song-handdrawn` profile:
 - warm off-white / xuan-paper-like ground;
 - ink-black primary text and linework;
-- pale celadon / sage / gray-green system accents;
-- very limited warm-yellow emphasis for actions/warnings;
-- hand-drawn watercolor/ink illustration language;
-- restrained bamboo, mist, mountain, botanical accents only where they support composition;
+- pale celadon / sage / gray-green accents;
+- limited warm-yellow emphasis;
+- restrained watercolor/ink texture;
 - generous negative space;
-- no gratuitous AI sparkle/purple-tech decoration;
-- technical objects (terminal, browser, laptop, phone, flow arrows) remain recognizable.
+- technical objects remain semantically recognizable.
 
-The aesthetic must never reduce text legibility or factual precision. Reuse `shared/creative-core/`, `shared/visual-grammar/` and `shared/qa/song-aesthetic-visual-qa.md` rather than creating conflicting local rules.
+Style must never override semantic structure or factual precision.
 
-### 7. Compose the infographic
-For a 9:16 onboarding/explainer poster, prefer:
-- top 20–28%: title, value proposition, hero illustration;
-- middle 45–55%: installation/action workflow and first-use formula;
-- lower 20–30%: outputs, FAQ, advanced learning, limitations/source note.
+### 10. Build and validate render brief
+Produce JSON conforming to `schemas/render-brief.schema.json`.
 
-Use connectors to show causality. Avoid a uniform grid of cards when a flow or hierarchy communicates better.
-
-### 8. Build and validate render brief
-Produce a renderer-neutral JSON render brief that conforms to `schemas/render-brief.schema.json`.
-
-The render brief must specify:
-- exact required text;
-- prohibited strings;
-- hierarchy and placement;
-- aspect ratio and task profile;
-- visual profile and illustration language;
-- factual numbers/commands that must not be altered;
-- QA expectations.
-
-Validate it before rendering:
-
+Validate:
 ```bash
 python3 scripts/validate_render_brief.py path/to/render-brief.json
 ```
 
-A valid render brief is an implementation artifact, not a rendered infographic.
+A valid render brief is an implementation artifact, not yet the final infographic.
 
-### 9. Render
-
-#### Guaranteed repository-native path
-Use the deterministic runtime when a local PNG is required without depending on an external image model:
-
+### 11. Render
+Guaranteed repository-native path:
 ```bash
 cd runtime
 npm install
@@ -160,73 +160,74 @@ npx playwright install chromium
 node render.mjs ../templates/render-brief.example.json out/infographic.png
 ```
 
-The runtime:
-- reads a validated render brief;
-- maps hierarchy to a calm editorial layout;
-- preserves exact strings verbatim;
-- renders HTML/CSS at the requested aspect ratio;
-- screenshots the poster to PNG with Playwright.
+The deterministic renderer now routes by visual grammar:
+- onboarding-path -> product object + setup strip + first-use path + result;
+- node-edge-boundary -> architecture nodes, edges and boundary;
+- connected-step-path -> explicit sequential flow;
+- quantitative-comparison -> dominant metric + direct quantitative marks;
+- knowledge grammars -> layered, paired, cycle, or relational structures according to explanatory verb.
 
-#### Optional generative-image path
-An available external image renderer may consume the same render brief through `references/renderer-adapter-contract.md`. It must preserve exact strings and factual meaning. Generative output is an enhancement path, not the only renderer.
+The runtime returns `grammar` and `fallback_used` metadata.
 
-### 10. Visual QA
-Review the rendered artifact at full size and thumbnail size. Apply `references/rendered-infographic-qa.md`.
-
-Acceptance gates:
-- viewer understands the topic within ~3 seconds;
-- viewer can find the primary action path within ~10 seconds;
-- title and section hierarchy are unambiguous;
+### 12. Visual QA
+Apply `references/rendered-infographic-qa.md` and verify:
+- the topic is understandable within ~3 seconds;
+- the primary relationship/path is understandable within ~10 seconds;
+- the visual grammar matches the information structure;
+- no semantic profile silently falls back to editorial cards when structured data exists;
 - no clipped or unreadable text;
-- no duplicated concepts;
 - no invented facts;
-- exact commands/numbers match the claim ledger and render brief;
-- beginner-facing wording is respectful and neutral;
-- decorative elements do not compete with instructional content;
-- output remains coherent on a phone screen.
-
-If text rendering is unreliable, simplify copy and re-render rather than shrinking typography.
+- exact commands/numbers/units match the claim ledger and render brief;
+- mobile reading remains coherent.
 
 ## Outputs
 
-Planning artifacts:
+Planning:
 - `brief`
 - `claim-ledger`
+- `teaching-goal`
+- `explanatory-verb`
 - `information-architecture`
+- `visual-data`
 - `copy-deck`
 - `visual-direction`
 - `qa-report`
 
-Implementation artifacts:
+Implementation:
 - validated `render-brief.json`
-- profile selection
+- profile / grammar selection
 - renderer handoff instructions
 
-Rendered artifacts:
-- deterministic `infographic-png` from the repository runtime;
-- optional generative-image variant when an external renderer is available;
-- optional aspect-ratio variants.
+Rendered:
+- deterministic `infographic-png`
+- render metadata: `grammar`, `fallback_used`
+- optional generative-image variant
+- optional aspect-ratio variants
 
 ## Benchmarks
 
-`benchmarks/infographic-director/` currently exercises:
+`benchmarks/infographic-director/` exercises all five profiles:
 - beginner onboarding;
 - technical architecture;
-- data comparison.
+- process guide;
+- data comparison;
+- knowledge explainer.
 
-CI validates contracts, installs Chromium, renders all benchmark PNGs, inspects output dimensions/guardrails and uploads the PNGs plus `benchmark-report.json` as build artifacts.
+CI validates contracts, renders PNGs, verifies dimensions/guardrails, and fails semantic profiles that unexpectedly use the editorial fallback.
 
 ## Quality boundary
 
-A visually attractive image with unsupported facts fails this Skill.
-A factually correct image with weak hierarchy also fails this Skill.
-A valid JSON brief without a renderer is not a final infographic.
-A deterministic PNG is a real rendered artifact, but it does not prove the optional generative-image path has been validated.
-The target is verified content + audience translation + director-grade hierarchy + readable rendering.
+A visually attractive image with unsupported facts fails.
+A factually correct image with weak hierarchy fails.
+A profile label without a matching visual grammar fails.
+A semantic visual that collapses back into generic cards fails when structured data exists.
+
+The target is verified content + audience translation + semantic visual grammar + director-grade hierarchy + readable rendering.
 
 ## References
 
 - `references/design-principles.md`
+- `references/visual-grammar-v04.md`
 - `references/renderer-adapter-contract.md`
 - `references/rendered-infographic-qa.md`
 - `examples/stageshow-onboarding.md`
