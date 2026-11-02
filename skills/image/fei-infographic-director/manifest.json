@@ -1,0 +1,13 @@
+{
+  "id": "fei-infographic-director",
+  "name": "Fei Infographic Director",
+  "version": "0.1.0",
+  "domain": "image",
+  "status": "workflow",
+  "description": "Turns verified source material into audience-aware, director-grade explanatory infographics with structured information architecture, Song-inspired hand-drawn visual direction, render briefs, and factual/visual QA.",
+  "entrypoint": "SKILL.md",
+  "inputs": ["source", "goal", "audience", "use_case", "depth", "aspect_ratio", "style_profile", "language", "must_include", "must_avoid"],
+  "outputs": ["brief", "claim-ledger", "information-architecture", "copy-deck", "visual-direction", "render-brief", "qa-report", "infographic-png"],
+  "runtime": ["agent", "image-renderer"],
+  "tags": ["infographic", "visual-explanation", "onboarding", "social-media", "source-aware", "song-aesthetic", "hand-drawn", "visual-director"]
+}
