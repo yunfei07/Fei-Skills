@@ -1,0 +1,36 @@
+{
+  "title": "家庭堆肥：从厨余到成品堆肥",
+  "goal": "让普通家庭读者知道后院堆肥需要哪些基本条件、哪些材料适合加入、如何维护，以及什么时候可以收获。",
+  "audience": "第一次尝试家庭堆肥的普通读者",
+  "aspect_ratio": "9:16",
+  "profile": "process-guide",
+  "hero": {
+    "message": "棕色材料 + 绿色材料 + 水分 + 空气，是后院堆肥的四个基本条件",
+    "visual_subject": "一个分层堆肥箱，展示 dry leaves、food scraps、水滴和空气流动"
+  },
+  "sections": [
+    {"heading": "准备材料", "purpose": "orient", "content": ["Browns：干叶、枝条、无光泽碎纸等富碳材料", "Greens：果蔬残渣、草屑、咖啡渣等富氮材料", "还需要水分与空气"]},
+    {"heading": "1. 选位置与容器", "purpose": "act", "content": ["选择全年容易接近、排水良好的位置", "附近最好有水源"]},
+    {"heading": "2. 建堆", "purpose": "act", "content": ["底层先铺 4–6 英寸较粗的 Browns", "随后交替加入 Greens 与 Browns", "Browns 体积至少约为 Greens 的 2–3 倍"]},
+    {"heading": "3. 维持水分与空气", "purpose": "act", "content": ["整体湿度接近拧干海绵", "偶尔翻动，帮助空气进入", "食物残渣用 4–8 英寸 Browns 覆盖"]},
+    {"heading": "4. 观察并调整", "purpose": "explain", "content": ["太干：加水并翻动", "有异味：可能太湿或缺空气，增加 Browns 并翻动", "不升温：加入 Greens 并翻动"]},
+    {"heading": "5. 收获", "purpose": "output", "content": ["维护良好的堆肥通常约 3–5 个月可用", "停止升温且看不到明显食物残渣后，至少再熟化 4 周", "成品应呈深色、松散、易碎，并有新鲜土壤气味"]},
+    {"heading": "不要加入", "purpose": "boundary", "content": ["后院堆肥一般避免肉、鱼、骨头、奶制品、油脂与宠物粪便", "部分材料可由商业堆肥设施处理，需先确认当地设施是否接受"]}
+  ],
+  "exact_strings": ["2–3 倍", "4–6 英寸", "4–8 英寸", "3–5 个月", "4 周"],
+  "prohibited_strings": ["小白", "菜鸟"],
+  "visual": {
+    "style_profile": "song-handdrawn",
+    "palette": ["warm off-white", "ink black", "sage", "soil brown", "limited warm yellow"],
+    "composition": "顶部用一个堆肥箱解释四要素，中部沿 1→5 步骤纵向推进，底部用单独边界区提示不适合后院堆肥的材料。",
+    "illustration_language": "手绘干叶、厨余、堆肥箱、水滴、空气箭头和成品土壤，避免夸张环保符号。"
+  },
+  "source_notes": ["Official source: U.S. EPA, Composting At Home."],
+  "qa": {
+    "three_second_read": "3 秒内看出家庭堆肥主题和 Browns/Greens/水/空气四要素。",
+    "ten_second_path": "10 秒内找到建堆 → 维护 → 调整 → 收获的主流程。",
+    "mobile_legibility": "比例、英寸和时间信息在手机宽度可辨认。",
+    "fact_check": "比例、覆盖深度、熟化时间和收获周期均来自 EPA 页面。",
+    "tone_check": "不使用绝对化环保功效或未经来源支持的健康结论。"
+  }
+}
