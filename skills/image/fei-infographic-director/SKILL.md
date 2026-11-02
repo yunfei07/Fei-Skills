@@ -8,7 +8,7 @@ This Skill is not a single image prompt. It is a director workflow that separate
 
 ## Status
 
-`workflow` as of v0.2.0. The source-to-render-brief pipeline, five audience/task profiles, schema validation, benchmark briefs and CI validation are implemented. Repository-native image rendering and rendered-image QA are not yet implemented, so this Skill must not claim autonomous PNG production without an available renderer.
+`workflow` as of v0.3.0. The source-to-render-brief pipeline, five task profiles, schema validation, benchmark briefs, deterministic HTML/PNG runtime and CI rendering are implemented. External generative-image adapters and pixel-level rendered-text verification remain optional/future layers, so the deterministic runtime is the guaranteed repository-native output path.
 
 ## Trigger
 
@@ -149,12 +149,29 @@ python3 scripts/validate_render_brief.py path/to/render-brief.json
 A valid render brief is an implementation artifact, not a rendered infographic.
 
 ### 9. Render
-Pass the validated render brief to an available image renderer. Preserve `exact_strings` verbatim and respect `prohibited_strings`.
 
-If no renderer is available, stop at planning/implementation artifacts and state that no rendered PNG was produced.
+#### Guaranteed repository-native path
+Use the deterministic runtime when a local PNG is required without depending on an external image model:
+
+```bash
+cd runtime
+npm install
+npx playwright install chromium
+node render.mjs ../templates/render-brief.example.json out/infographic.png
+```
+
+The runtime:
+- reads a validated render brief;
+- maps hierarchy to a calm editorial layout;
+- preserves exact strings verbatim;
+- renders HTML/CSS at the requested aspect ratio;
+- screenshots the poster to PNG with Playwright.
+
+#### Optional generative-image path
+An available external image renderer may consume the same render brief through `references/renderer-adapter-contract.md`. It must preserve exact strings and factual meaning. Generative output is an enhancement path, not the only renderer.
 
 ### 10. Visual QA
-Review the rendered artifact at full size and thumbnail size.
+Review the rendered artifact at full size and thumbnail size. Apply `references/rendered-infographic-qa.md`.
 
 Acceptance gates:
 - viewer understands the topic within ~3 seconds;
@@ -185,9 +202,10 @@ Implementation artifacts:
 - profile selection
 - renderer handoff instructions
 
-Rendered artifacts when a renderer is available:
-- `infographic-png`
-- optional aspect-ratio variants
+Rendered artifacts:
+- deterministic `infographic-png` from the repository runtime;
+- optional generative-image variant when an external renderer is available;
+- optional aspect-ratio variants.
 
 ## Benchmarks
 
@@ -196,18 +214,21 @@ Rendered artifacts when a renderer is available:
 - technical architecture;
 - data comparison.
 
-CI validates the template and all benchmark render briefs against the schema and local guardrails.
+CI validates contracts, installs Chromium, renders all benchmark PNGs, inspects output dimensions/guardrails and uploads the PNGs plus `benchmark-report.json` as build artifacts.
 
 ## Quality boundary
 
 A visually attractive image with unsupported facts fails this Skill.
 A factually correct image with weak hierarchy also fails this Skill.
-A valid JSON brief without an actual renderer is not a final infographic.
+A valid JSON brief without a renderer is not a final infographic.
+A deterministic PNG is a real rendered artifact, but it does not prove the optional generative-image path has been validated.
 The target is verified content + audience translation + director-grade hierarchy + readable rendering.
 
 ## References
 
 - `references/design-principles.md`
+- `references/renderer-adapter-contract.md`
+- `references/rendered-infographic-qa.md`
 - `examples/stageshow-onboarding.md`
 - `templates/render-brief.example.json`
 - `schemas/render-brief.schema.json`
