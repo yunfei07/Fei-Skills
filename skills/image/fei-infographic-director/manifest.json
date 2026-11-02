@@ -1,13 +1,13 @@
 {
   "id": "fei-infographic-director",
   "name": "Fei Infographic Director",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "domain": "image",
   "status": "workflow",
-  "description": "Turns verified source material into audience-aware, director-grade explanatory infographics with structured information architecture, Song-inspired hand-drawn visual direction, render briefs, and factual/visual QA.",
+  "description": "Turns verified source material into audience-aware, director-grade explanatory infographics with task profiles, structured information architecture, Song-inspired hand-drawn visual direction, schema-validated render briefs, benchmarks, and factual/visual QA.",
   "entrypoint": "SKILL.md",
-  "inputs": ["source", "goal", "audience", "use_case", "depth", "aspect_ratio", "style_profile", "language", "must_include", "must_avoid"],
+  "inputs": ["source", "goal", "audience", "use_case", "depth", "profile", "aspect_ratio", "style_profile", "language", "must_include", "must_avoid"],
   "outputs": ["brief", "claim-ledger", "information-architecture", "copy-deck", "visual-direction", "render-brief", "qa-report", "infographic-png"],
-  "runtime": ["agent", "image-renderer"],
-  "tags": ["infographic", "visual-explanation", "onboarding", "social-media", "source-aware", "song-aesthetic", "hand-drawn", "visual-director"]
+  "runtime": ["agent", "python", "image-renderer"],
+  "tags": ["infographic", "visual-explanation", "onboarding", "technical-architecture", "data-comparison", "process-guide", "social-media", "source-aware", "song-aesthetic", "hand-drawn", "visual-director"]
 }
