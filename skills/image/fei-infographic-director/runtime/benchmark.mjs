@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { chromium } from 'playwright';
 import { renderBrief } from './render.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -11,6 +10,13 @@ const outDir = path.join(__dirname, 'out');
 
 function collectJson(dir) {
   return fs.readdirSync(dir).filter(x => x.endsWith('.json')).map(x => path.join(dir, x));
+}
+
+function readPngDimensions(file) {
+  const buf = fs.readFileSync(file);
+  const signature = '89504e470d0a1a0a';
+  if (buf.subarray(0, 8).toString('hex') !== signature) throw new Error(`${file}: not a PNG`);
+  return {width: buf.readUInt32BE(16), height: buf.readUInt32BE(20)};
 }
 
 function visibleText(data) {
@@ -36,16 +42,12 @@ async function inspectBrief(briefPath) {
   const outPath = path.join(outDir, path.basename(briefPath, '.json') + '.png');
   await renderBrief(briefPath, outPath);
 
-  const browser = await chromium.launch({headless:true});
-  const page = await browser.newPage({viewport:{width:1200,height:2200}});
-  await page.setContent(`<html><body style="margin:0"><img id="shot" src="file://${outPath}" /></body></html>`);
-  const dims = await page.locator('#shot').evaluate(img => ({naturalWidth: img.naturalWidth, naturalHeight: img.naturalHeight}));
-  await browser.close();
-
+  const dims = readPngDimensions(outPath);
   const expectedRatio = data.aspect_ratio.split(':').map(Number);
-  const actualRatio = dims.naturalWidth / dims.naturalHeight;
+  const actualRatio = dims.width / dims.height;
   const targetRatio = expectedRatio[0] / expectedRatio[1];
   if (Math.abs(actualRatio - targetRatio) > 0.01) throw new Error(`${briefPath}: ratio mismatch`);
+  if (fs.statSync(outPath).size < 10_000) throw new Error(`${briefPath}: rendered PNG unexpectedly small`);
 
   const visible = visibleText(data);
   for (const exact of data.exact_strings || []) {
@@ -56,7 +58,7 @@ async function inspectBrief(briefPath) {
   }
   if ((data.sections || []).length < 3 || (data.sections || []).length > 10) throw new Error(`${briefPath}: invalid section count`);
 
-  return {brief:path.basename(briefPath), image:path.relative(repoRoot,outPath), width:dims.naturalWidth, height:dims.naturalHeight};
+  return {brief:path.basename(briefPath), image:path.relative(repoRoot,outPath), width:dims.width, height:dims.height, bytes:fs.statSync(outPath).size};
 }
 
 fs.mkdirSync(outDir, {recursive:true});
