@@ -4,7 +4,10 @@
   "type": "module",
   "scripts": {
     "render": "node render.mjs",
-    "benchmark": "node benchmark.mjs"
+    "auto-render": "node auto-render.mjs",
+    "benchmark": "node benchmark.mjs",
+    "benchmark:planner": "node visual-planner-benchmark.mjs",
+    "benchmark:auto": "node auto-benchmark.mjs"
   },
   "dependencies": {
     "playwright": "^1.52.0"
