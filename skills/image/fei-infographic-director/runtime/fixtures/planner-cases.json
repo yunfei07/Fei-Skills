@@ -1,0 +1,78 @@
+[
+  {
+    "id": "auto-data-comparison",
+    "input": {
+      "title": "三种方案对比",
+      "goal": "比较三种方案在同一测试环境下的完成时间",
+      "sections": [
+        {"heading":"主要指标","purpose":"evidence","content":["方案 A：12 分钟","方案 B：18 分钟","方案 C：25 分钟"]},
+        {"heading":"范围","purpose":"boundary","content":["同一输入集","同一环境"]}
+      ]
+    },
+    "expect": {"profile":"data-comparison","verb":"compare","grammar":"quantitative-comparison"}
+  },
+  {
+    "id": "auto-onboarding",
+    "input": {
+      "title": "第一次使用工具",
+      "goal": "从安装到第一次运行",
+      "sections": [
+        {"heading":"开始前准备","purpose":"act","content":["安装 Node.js"]},
+        {"heading":"安装","purpose":"act","content":["运行安装命令"]},
+        {"heading":"第一次使用","purpose":"act","content":["创建项目并运行"]},
+        {"heading":"结果","purpose":"output","content":["得到可运行项目"]}
+      ]
+    },
+    "expect": {"profile":"beginner-onboarding","verb":"transform","grammar":"onboarding-path"}
+  },
+  {
+    "id": "auto-architecture",
+    "input": {
+      "title": "Agent 系统架构",
+      "goal": "解释 Router、Worker 与 Thread 的连接关系",
+      "sections": [
+        {"heading":"入口","purpose":"orient","content":["Client request"]},
+        {"heading":"调度","purpose":"explain","content":["Router 分配任务"]},
+        {"heading":"执行","purpose":"explain","content":["Worker 执行"]},
+        {"heading":"状态","purpose":"explain","content":["Thread 保存上下文"]},
+        {"heading":"边界","purpose":"boundary","content":["示意拓扑"]}
+      ]
+    },
+    "expect": {"profile":"technical-architecture","verb":"relate","grammar":"node-edge-boundary"}
+  },
+  {
+    "id": "verb-transform",
+    "input": {"profile":"knowledge-explainer","title":"从原料到成品","goal":"解释材料如何从原始状态转化为最终状态","sections":[{"heading":"之前","purpose":"orient","content":["原始材料"]},{"heading":"之后","purpose":"explain","content":["最终成品"]},{"heading":"机制","purpose":"explain","content":["中间发生结构变化"]}]},
+    "expect": {"verb":"transform","grammar":"before-after"}
+  },
+  {
+    "id": "verb-branch",
+    "input": {"profile":"knowledge-explainer","title":"如何选择路径","goal":"如果条件 A 成立走左侧，否则走右侧","sections":[{"heading":"条件","purpose":"orient","content":["如果满足阈值"]},{"heading":"选择 A","purpose":"explain","content":["路径一"]},{"heading":"选择 B","purpose":"explain","content":["否则路径二"]}]},
+    "expect": {"verb":"branch","grammar":"decision-tree"}
+  },
+  {
+    "id": "verb-repeat",
+    "input": {"profile":"knowledge-explainer","title":"反馈循环","goal":"解释系统如何循环执行并重复修正","sections":[{"heading":"输入","purpose":"orient","content":["接收状态"]},{"heading":"处理","purpose":"explain","content":["执行一次"]},{"heading":"反馈","purpose":"explain","content":["回到输入继续循环"]}]},
+    "expect": {"verb":"repeat","grammar":"cycle"}
+  },
+  {
+    "id": "verb-accumulate",
+    "input": {"profile":"knowledge-explainer","title":"价值逐层累积","goal":"解释能力如何逐层叠加并累积价值","sections":[{"heading":"基础层","purpose":"orient","content":["第一层"]},{"heading":"能力层","purpose":"explain","content":["第二层叠加"]},{"heading":"复利层","purpose":"explain","content":["长期累积"]}]},
+    "expect": {"verb":"accumulate","grammar":"layer-stack"}
+  },
+  {
+    "id": "verb-focus",
+    "input": {"profile":"knowledge-explainer","title":"核心机制","goal":"聚焦最关键的一步，解释它为什么重要","sections":[{"heading":"背景","purpose":"orient","content":["上下文"]},{"heading":"核心步骤","purpose":"explain","content":["这是重点"]},{"heading":"结果","purpose":"output","content":["由此产生效果"]}]},
+    "expect": {"verb":"focus","grammar":"focus-reveal"}
+  },
+  {
+    "id": "verb-relate",
+    "input": {"profile":"knowledge-explainer","title":"三个要素的关系","goal":"解释 A、B、C 如何连接和相互依赖","sections":[{"heading":"A","purpose":"orient","content":["连接 B"]},{"heading":"B","purpose":"explain","content":["依赖 C"]},{"heading":"C","purpose":"explain","content":["与 A 交互"]}]},
+    "expect": {"verb":"relate","grammar":"spatial-relations"}
+  },
+  {
+    "id": "verb-compare",
+    "input": {"profile":"knowledge-explainer","title":"两种机制比较","goal":"比较机制 A 与机制 B 的差异","sections":[{"heading":"机制 A","purpose":"orient","content":["特点一"]},{"heading":"机制 B","purpose":"explain","content":["特点二"]},{"heading":"差异","purpose":"explain","content":["对比两者"]}]},
+    "expect": {"verb":"compare","grammar":"paired-comparison"}
+  }
+]
