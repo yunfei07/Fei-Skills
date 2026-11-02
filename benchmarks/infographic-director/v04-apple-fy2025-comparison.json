@@ -10,12 +10,12 @@
   },
   "sections": [
     {"heading": "总净销售额", "purpose": "evidence", "content": ["FY2025：416,161 百万美元", "FY2024：391,035 百万美元"]},
-    {"heading": "产品与服务", "purpose": "evidence", "content": ["FY2025 Products：307,003 百万美元", "FY2025 Services：109,158 百万美元"]},
-    {"heading": "同比变化", "purpose": "explain", "content": ["总净销售额同比增加 25,126 百万美元", "Services 较 FY2024 增加 13,589 百万美元"]},
+    {"heading": "产品与服务", "purpose": "evidence", "content": ["FY2025 Products：307,003 百万美元", "FY2025 Services：109,158 百万美元", "FY2024 Services：96,169 百万美元"]},
+    {"heading": "同比变化", "purpose": "explain", "content": ["总净销售额同比增加 25,126 百万美元", "Services 较 FY2024 增加 12,989 百万美元"]},
     {"heading": "如何解读", "purpose": "explain", "content": ["Services 占 FY2025 总净销售额约 26%", "Products 仍是收入主体"]},
     {"heading": "范围说明", "purpose": "boundary", "content": ["金额单位均为百万美元", "本图只讨论净销售额，不等同于利润、现金流或估值"]}
   ],
-  "exact_strings": ["416,161", "391,035", "307,003", "109,158", "百万美元"],
+  "exact_strings": ["416,161", "391,035", "307,003", "109,158", "96,169", "12,989", "百万美元"],
   "prohibited_strings": [],
   "visual": {
     "style_profile": "song-handdrawn",
@@ -23,7 +23,7 @@
     "composition": "一个大数字作为主视觉；FY2025/FY2024 对比和 Products/Services 拆分为两个辅助比较区。",
     "illustration_language": "克制的手绘柱形/比例图与直接标签，不使用装饰性仪表盘。"
   },
-  "source_notes": ["Official source: Apple Inc. 2025 Form 10-K, Net Sales by Reportable Segment and by Products/Services."],
+  "source_notes": ["Official source: Apple Inc. 2025 Form 10-K, Products and Services Performance."],
   "qa": {
     "three_second_read": "3 秒内识别 FY2025 总收入和服务收入的重点。",
     "ten_second_path": "10 秒内找到 FY2025/FY2024 与 Products/Services 两组对比。",
