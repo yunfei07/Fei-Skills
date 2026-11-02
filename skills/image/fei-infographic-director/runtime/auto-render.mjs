@@ -3,6 +3,9 @@ import os from 'node:os';
 import path from 'node:path';
 import { planVisual } from './visual-planner.mjs';
 import { renderBrief } from './render.mjs';
+import { renderKnowledgeSpecial } from './knowledge-special-renderer.mjs';
+
+const SPECIAL_GRAMMARS = new Set(['decision-tree','focus-reveal','spatial-relations']);
 
 export async function autoRender(input, outPath) {
   const raw = typeof input === 'string' ? JSON.parse(fs.readFileSync(input,'utf8')) : structuredClone(input);
@@ -31,10 +34,15 @@ export async function autoRender(input, outPath) {
     ...raw
   };
   const planned = planVisual(enriched);
-  const tmp = path.join(os.tmpdir(), `fei-infographic-plan-${process.pid}-${Date.now()}.json`);
-  fs.writeFileSync(tmp, JSON.stringify(planned,null,2));
-  const rendered = await renderBrief(tmp, outPath);
-  fs.unlinkSync(tmp);
+  let rendered;
+  if (planned.profile === 'knowledge-explainer' && SPECIAL_GRAMMARS.has(planned.visual_grammar)) {
+    rendered = await renderKnowledgeSpecial(planned, outPath);
+  } else {
+    const tmp = path.join(os.tmpdir(), `fei-infographic-plan-${process.pid}-${Date.now()}.json`);
+    fs.writeFileSync(tmp, JSON.stringify(planned,null,2));
+    rendered = await renderBrief(tmp, outPath);
+    fs.unlinkSync(tmp);
+  }
   return { ...rendered, plan: planned.visual_plan, profile: planned.profile, explanatory_verb: planned.explanatory_verb, visual_grammar: planned.visual_grammar, visual_data: planned.visual_data };
 }
 
